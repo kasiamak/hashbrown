@@ -19,17 +19,19 @@ import * as $12 from "./routes/dashboard/api/todo.ts";
 import * as $13 from "./routes/dashboard/hashtags.tsx";
 import * as $14 from "./routes/dashboard/index.tsx";
 import * as $15 from "./routes/dashboard/manage-subscription.ts";
-import * as $16 from "./routes/dashboard/todos.tsx";
-import * as $17 from "./routes/dashboard/upgrade-subscription.ts";
-import * as $18 from "./routes/feed.ts";
-import * as $19 from "./routes/index.tsx";
-import * as $20 from "./routes/login/index.tsx";
-import * as $21 from "./routes/login/success.tsx";
-import * as $22 from "./routes/logout.ts";
-import * as $23 from "./routes/signup.tsx";
+import * as $16 from "./routes/dashboard/searchHashtags.tsx";
+import * as $17 from "./routes/dashboard/todos.tsx";
+import * as $18 from "./routes/dashboard/upgrade-subscription.ts";
+import * as $19 from "./routes/feed.ts";
+import * as $20 from "./routes/index.tsx";
+import * as $21 from "./routes/login/index.tsx";
+import * as $22 from "./routes/login/success.tsx";
+import * as $23 from "./routes/logout.ts";
+import * as $24 from "./routes/signup.tsx";
 import * as $$0 from "./islands/AuthFragmentCatcher.tsx";
 import * as $$1 from "./islands/HashtagList.tsx";
-import * as $$2 from "./islands/TodoList.tsx";
+import * as $$2 from "./islands/SearchHashtag.tsx";
+import * as $$3 from "./islands/TodoList.tsx";
 
 const manifest = {
   routes: {
@@ -49,19 +51,21 @@ const manifest = {
     "./routes/dashboard/hashtags.tsx": $13,
     "./routes/dashboard/index.tsx": $14,
     "./routes/dashboard/manage-subscription.ts": $15,
-    "./routes/dashboard/todos.tsx": $16,
-    "./routes/dashboard/upgrade-subscription.ts": $17,
-    "./routes/feed.ts": $18,
-    "./routes/index.tsx": $19,
-    "./routes/login/index.tsx": $20,
-    "./routes/login/success.tsx": $21,
-    "./routes/logout.ts": $22,
-    "./routes/signup.tsx": $23,
+    "./routes/dashboard/searchHashtags.tsx": $16,
+    "./routes/dashboard/todos.tsx": $17,
+    "./routes/dashboard/upgrade-subscription.ts": $18,
+    "./routes/feed.ts": $19,
+    "./routes/index.tsx": $20,
+    "./routes/login/index.tsx": $21,
+    "./routes/login/success.tsx": $22,
+    "./routes/logout.ts": $23,
+    "./routes/signup.tsx": $24,
   },
   islands: {
     "./islands/AuthFragmentCatcher.tsx": $$0,
     "./islands/HashtagList.tsx": $$1,
-    "./islands/TodoList.tsx": $$2,
+    "./islands/SearchHashtag.tsx": $$2,
+    "./islands/TodoList.tsx": $$3,
   },
   baseUrl: import.meta.url,
   config,

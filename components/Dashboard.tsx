@@ -60,6 +60,11 @@ export default function DashboardLayout(props: DashboardProps) {
     const sidebarNavItems = [
         {
             icon: IconHash,
+            href: '/dashboard/searchHashtags',
+            inner: 'Search hashtags',
+        },
+        {
+            icon: IconHash,
             href: '/dashboard/hashtags',
             inner: 'My hashtags',
         },

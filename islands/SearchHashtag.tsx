@@ -11,25 +11,27 @@ import IconTrash from 'tabler-icons/trash.tsx';
 import { assert } from 'std/testing/asserts.ts';
 import { useRef } from 'preact/hooks';
 
-async function requestCreateHashtag(hashtag: Hashtag) {
-    const response = await fetch('/dashboard/api/hashtag', {
-        method: 'POST',
-        body: JSON.stringify(hashtag),
-    });
-    assert(response.ok);
+function createHashtagInSignal(hashtags: Signal<string[]>, hashtag: string[]) {
+    hashtags.value = [...hashtags.value, ...hashtag];
 }
 
-function createHashtagInSignal(hashtags: Signal<Hashtag[]>, hashtag: Hashtag) {
-    hashtags.value = [...hashtags.value, hashtag];
-}
+async function searchHashtag(hashtags: Signal<string[]>, name: string) {
+    // faking a backend, waiting 1 second
+    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
 
-async function createHashtag(hashtags: Signal<Hashtag[]>, name: string) {
-    const newHashtag: Hashtag = {
-        name: name.toLowerCase(),
-        id: crypto.randomUUID(),
-    };
-    if (IS_BROWSER) await requestCreateHashtag(newHashtag);
-    createHashtagInSignal(hashtags, newHashtag);
+    const newHashtags = [
+        '#fitnessmotivation',
+        '#fitfam',
+        '#fitnessjourney',
+        '#fitlife',
+        '#workoutmotivation',
+        '#fitspo',
+        '#healthy',
+        '#fitgirl',
+        '#getfit',
+        '#fitfluential',
+    ];
+    createHashtagInSignal(hashtags, newHashtags);
 }
 
 async function requestDeleteHashtag(id: string) {
@@ -49,13 +51,12 @@ async function deleteHashtag(hashtags: Signal<Hashtag[]>, id: string) {
     deleteHashtagInSignal(hashtags, id);
 }
 
-interface HashtagListProps {
+interface SearchHashtagProps {
     isSubscribed: boolean;
-    hashtags: Hashtag[];
 }
 
-export default function HashtagList(props: HashtagListProps) {
-    const hashtags = useSignal(props.hashtags);
+export default function SearchHashtag(props: SearchHashtagProps) {
+    const hashtags = useSignal<string[]>([]);
     const newHashtagRef = useRef<HTMLInputElement | null>(null);
 
     const isMoreHashtags =
@@ -63,32 +64,17 @@ export default function HashtagList(props: HashtagListProps) {
 
     return (
         <div class='space-y-4'>
-            <ul class='divide-y space-y-2'>
-                {hashtags.value.map((hashtag) => (
-                    <li class='flex items-center justify-between gap-2 p-2'>
-                        <div class='flex'>{hashtag.name}</div>
-                        <IconTrash
-                            onClick={async () =>
-                                await deleteHashtag(hashtags, hashtag.id)
-                            }
-                            class='cursor-pointer text-red-600'
-                        />
-                    </li>
-                ))}
-            </ul>
             <form
                 class='flex gap-4'
                 onSubmit={async (event) => {
                     event.preventDefault();
-                    await createHashtag(hashtags, newHashtagRef.current!.value);
+                    await searchHashtag(hashtags, newHashtagRef.current!.value);
                     newHashtagRef.current!.form!.reset();
                 }}
             >
                 <input
-                    title='Must be valid hashtag'
-                    pattern='#[\p{L}\p{Mn}\p{Pc}0-9_]+'
                     required
-                    placeholder='enter a new #hashtag'
+                    placeholder='enter a term to find hashtags'
                     ref={newHashtagRef}
                     disabled={!isMoreHashtags}
                     class={`${BASE_INPUT_STYLES} flex-1`}
@@ -101,6 +87,13 @@ export default function HashtagList(props: HashtagListProps) {
                     +
                 </button>
             </form>
+            <ul class='divide-y space-y-2'>
+                {hashtags.value.map((hashtag) => (
+                    <li class='flex items-center justify-between gap-2 p-2'>
+                        <div class='flex'>{hashtag}</div>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
