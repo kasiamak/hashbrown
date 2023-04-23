@@ -44,6 +44,20 @@ export interface Database {
           user_id?: string;
         };
       };
+      hashtags: {
+        Row: {
+          id: string;
+          name: string | null;
+        };
+        Insert: {
+          id: string;
+          name?: string | null;
+        };
+        Update: {
+          id?: string;
+          name?: string | null;
+        };
+      };
     };
     Views: {
       [_ in never]: never;

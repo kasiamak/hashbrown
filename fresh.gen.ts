@@ -14,19 +14,22 @@ import * as $7 from "./routes/blog/[slug].tsx";
 import * as $8 from "./routes/blog/index.tsx";
 import * as $9 from "./routes/dashboard/_middleware.ts";
 import * as $10 from "./routes/dashboard/account.tsx";
-import * as $11 from "./routes/dashboard/api/todo.ts";
-import * as $12 from "./routes/dashboard/index.tsx";
-import * as $13 from "./routes/dashboard/manage-subscription.ts";
-import * as $14 from "./routes/dashboard/todos.tsx";
-import * as $15 from "./routes/dashboard/upgrade-subscription.ts";
-import * as $16 from "./routes/feed.ts";
-import * as $17 from "./routes/index.tsx";
-import * as $18 from "./routes/login/index.tsx";
-import * as $19 from "./routes/login/success.tsx";
-import * as $20 from "./routes/logout.ts";
-import * as $21 from "./routes/signup.tsx";
+import * as $11 from "./routes/dashboard/api/hashtag.ts";
+import * as $12 from "./routes/dashboard/api/todo.ts";
+import * as $13 from "./routes/dashboard/hashtags.tsx";
+import * as $14 from "./routes/dashboard/index.tsx";
+import * as $15 from "./routes/dashboard/manage-subscription.ts";
+import * as $16 from "./routes/dashboard/todos.tsx";
+import * as $17 from "./routes/dashboard/upgrade-subscription.ts";
+import * as $18 from "./routes/feed.ts";
+import * as $19 from "./routes/index.tsx";
+import * as $20 from "./routes/login/index.tsx";
+import * as $21 from "./routes/login/success.tsx";
+import * as $22 from "./routes/logout.ts";
+import * as $23 from "./routes/signup.tsx";
 import * as $$0 from "./islands/AuthFragmentCatcher.tsx";
-import * as $$1 from "./islands/TodoList.tsx";
+import * as $$1 from "./islands/HashtagList.tsx";
+import * as $$2 from "./islands/TodoList.tsx";
 
 const manifest = {
   routes: {
@@ -41,21 +44,24 @@ const manifest = {
     "./routes/blog/index.tsx": $8,
     "./routes/dashboard/_middleware.ts": $9,
     "./routes/dashboard/account.tsx": $10,
-    "./routes/dashboard/api/todo.ts": $11,
-    "./routes/dashboard/index.tsx": $12,
-    "./routes/dashboard/manage-subscription.ts": $13,
-    "./routes/dashboard/todos.tsx": $14,
-    "./routes/dashboard/upgrade-subscription.ts": $15,
-    "./routes/feed.ts": $16,
-    "./routes/index.tsx": $17,
-    "./routes/login/index.tsx": $18,
-    "./routes/login/success.tsx": $19,
-    "./routes/logout.ts": $20,
-    "./routes/signup.tsx": $21,
+    "./routes/dashboard/api/hashtag.ts": $11,
+    "./routes/dashboard/api/todo.ts": $12,
+    "./routes/dashboard/hashtags.tsx": $13,
+    "./routes/dashboard/index.tsx": $14,
+    "./routes/dashboard/manage-subscription.ts": $15,
+    "./routes/dashboard/todos.tsx": $16,
+    "./routes/dashboard/upgrade-subscription.ts": $17,
+    "./routes/feed.ts": $18,
+    "./routes/index.tsx": $19,
+    "./routes/login/index.tsx": $20,
+    "./routes/login/success.tsx": $21,
+    "./routes/logout.ts": $22,
+    "./routes/signup.tsx": $23,
   },
   islands: {
     "./islands/AuthFragmentCatcher.tsx": $$0,
-    "./islands/TodoList.tsx": $$1,
+    "./islands/HashtagList.tsx": $$1,
+    "./islands/TodoList.tsx": $$2,
   },
   baseUrl: import.meta.url,
   config,
