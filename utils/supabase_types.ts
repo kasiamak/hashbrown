@@ -50,7 +50,7 @@ export interface Database {
           name: string | null;
         };
         Insert: {
-          id: string;
+          id?: string;
           name?: string | null;
         };
         Update: {

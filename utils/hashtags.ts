@@ -16,12 +16,23 @@ export async function getHashtags(client: SupabaseClient<Database>) {
 
 export async function createHashtag(
   client: SupabaseClient<Database>,
-  hashtag: Hashtag,
+  hashtag: Hashtag
 ) {
-  console.log("hashtag", hashtag);
-  const { error } = await client
-    .from(TABLE_NAME)
-    .insert(hashtag);
+  const { error } = await client.from(TABLE_NAME).insert(hashtag);
+
+  if (error) {
+    // for error `uplicate key value violates unique constraint "hashtags_name_key"`
+    // we want to ignore as its a valid error
+    if (error?.code == "23505") return;
+    throw error;
+  }
+}
+
+export async function createManyHashtag(
+  client: SupabaseClient<Database>,
+  hashtag: Hashtag[]
+) {
+  const { error } = await client.from(TABLE_NAME).insert(hashtag);
 
   if (error) {
     // for error `uplicate key value violates unique constraint "hashtags_name_key"`
@@ -33,11 +44,7 @@ export async function createHashtag(
 
 export async function deleteHashtag(
   client: SupabaseClient<Database>,
-  id: Hashtag["id"],
+  id: Hashtag["id"]
 ) {
-  await client
-    .from(TABLE_NAME)
-    .delete()
-    .eq("id", id)
-    .throwOnError();
+  await client.from(TABLE_NAME).delete().eq("id", id).throwOnError();
 }

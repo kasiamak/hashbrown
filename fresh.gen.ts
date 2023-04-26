@@ -5,16 +5,16 @@
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_500.tsx";
-import * as $2 from "./routes/api/generate.ts";
-import * as $3 from "./routes/api/login.ts";
-import * as $4 from "./routes/api/logout.ts";
-import * as $5 from "./routes/api/oauth.ts";
-import * as $6 from "./routes/api/signup.ts";
-import * as $7 from "./routes/api/subscription.ts";
-import * as $8 from "./routes/blog/[slug].tsx";
-import * as $9 from "./routes/blog/index.tsx";
-import * as $10 from "./routes/dashboard/_middleware.ts";
-import * as $11 from "./routes/dashboard/account.tsx";
+import * as $2 from "./routes/api/login.ts";
+import * as $3 from "./routes/api/logout.ts";
+import * as $4 from "./routes/api/oauth.ts";
+import * as $5 from "./routes/api/signup.ts";
+import * as $6 from "./routes/api/subscription.ts";
+import * as $7 from "./routes/blog/[slug].tsx";
+import * as $8 from "./routes/blog/index.tsx";
+import * as $9 from "./routes/dashboard/_middleware.ts";
+import * as $10 from "./routes/dashboard/account.tsx";
+import * as $11 from "./routes/dashboard/api/generate.ts";
 import * as $12 from "./routes/dashboard/api/hashtag.ts";
 import * as $13 from "./routes/dashboard/api/todo.ts";
 import * as $14 from "./routes/dashboard/hashtags.tsx";
@@ -38,16 +38,16 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $0,
     "./routes/_500.tsx": $1,
-    "./routes/api/generate.ts": $2,
-    "./routes/api/login.ts": $3,
-    "./routes/api/logout.ts": $4,
-    "./routes/api/oauth.ts": $5,
-    "./routes/api/signup.ts": $6,
-    "./routes/api/subscription.ts": $7,
-    "./routes/blog/[slug].tsx": $8,
-    "./routes/blog/index.tsx": $9,
-    "./routes/dashboard/_middleware.ts": $10,
-    "./routes/dashboard/account.tsx": $11,
+    "./routes/api/login.ts": $2,
+    "./routes/api/logout.ts": $3,
+    "./routes/api/oauth.ts": $4,
+    "./routes/api/signup.ts": $5,
+    "./routes/api/subscription.ts": $6,
+    "./routes/blog/[slug].tsx": $7,
+    "./routes/blog/index.tsx": $8,
+    "./routes/dashboard/_middleware.ts": $9,
+    "./routes/dashboard/account.tsx": $10,
+    "./routes/dashboard/api/generate.ts": $11,
     "./routes/dashboard/api/hashtag.ts": $12,
     "./routes/dashboard/api/todo.ts": $13,
     "./routes/dashboard/hashtags.tsx": $14,

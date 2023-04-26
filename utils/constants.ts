@@ -1,10 +1,10 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
-export const SITE_NAME = "Your SaaS";
-export const SITE_DESCRIPTION = "Some details about your SaaS.";
+export const SITE_NAME = "Hashbrown";
+export const SITE_DESCRIPTION = "Hashtags fried to perfection";
 
 export const AUTHENTICATED_REDIRECT_PATH = "/dashboard";
 
-export const STRIPE_PREMIUM_PLAN_PRICE_ID = "price_1MPiEkD6QJts4RaYcp1SevPe";
+export const STRIPE_PREMIUM_PLAN_PRICE_ID = "price_1N1E64KWtYfD4PpHPe72SAzk";
 
 export const FREE_PLAN_TODOS_LIMIT = 5;
 
