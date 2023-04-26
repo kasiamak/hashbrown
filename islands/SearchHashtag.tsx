@@ -1,15 +1,12 @@
 import { type Signal, useSignal } from '@preact/signals';
 import { IS_BROWSER } from '$fresh/runtime.ts';
 import type { Hashtag } from '@/utils/hashtags.ts';
-import IconHash from 'tabler-icons/hash.tsx';
-import {
-    BASE_BUTTON_STYLES,
-    BASE_INPUT_STYLES,
-    FREE_PLAN_TODOS_LIMIT,
-} from '@/utils/constants.ts';
-import IconTrash from 'tabler-icons/trash.tsx';
+import { FREE_PLAN_TODOS_LIMIT } from '@/utils/constants.ts';
 import { assert } from 'std/testing/asserts.ts';
 import { useRef } from 'preact/hooks';
+import Input from '../components/Input.tsx';
+import Button from '../components/Button.tsx';
+import IconPlus from 'tabler-icons/plus.tsx';
 
 function createHashtagInSignal(hashtags: Signal<string[]>, hashtag: string[]) {
     hashtags.value = [...hashtags.value, ...hashtag];
@@ -72,20 +69,16 @@ export default function SearchHashtag(props: SearchHashtagProps) {
                     newHashtagRef.current!.form!.reset();
                 }}
             >
-                <input
+                <Input
+                    class='w-full'
                     required
                     placeholder='enter a term to find hashtags'
                     ref={newHashtagRef}
                     disabled={!isMoreHashtags}
-                    class={`${BASE_INPUT_STYLES} flex-1`}
                 />
-                <button
-                    disabled={!isMoreHashtags}
-                    type='submit'
-                    class={`${BASE_BUTTON_STYLES} px-4`}
-                >
-                    +
-                </button>
+                <Button class='flex' disabled={!isMoreHashtags} type='submit'>
+                    Search <IconPlus />
+                </Button>
             </form>
             <ul class='divide-y space-y-2'>
                 {hashtags.value.map((hashtag) => (
