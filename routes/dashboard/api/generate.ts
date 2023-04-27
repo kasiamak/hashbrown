@@ -4,18 +4,9 @@ import { createManyHashtag } from "../../../utils/hashtags.ts";
 
 const openai = new OpenAI(Deno.env.get("OPENAI_API_KEY") ?? "");
 
-function extractJsonFromMarkdown(markdown: string) {
-  console.log("markdown", markdown);
-  // sometimes json identifier is missing
-  const match = markdown.match(/```(?:json)?\s*\n([\s\S]*?)\n```/);
-
-  if (!match) {
-    throw new Error("No JSON code block found in Markdown file");
-  }
-
-  const jsonStr = match[1];
-  console.log("jsonStr", jsonStr);
-  return JSON.parse(jsonStr);
+function extractJson(markdown: string) {
+  console.log(markdown);
+  return JSON.parse(markdown);
 }
 
 export const handler: Handlers<null, DashboardState> = {
@@ -27,7 +18,15 @@ export const handler: Handlers<null, DashboardState> = {
         messages: [
           {
             role: "system",
-            content: `As an expert in Instagram hashtags, your task is to provide a JSON array of 10 highly relevant and niche hashtags for a given topic. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the topic. The JSON array should be returned in the form of a json, which is an array of objects with two properties: hashtag (a string representing the hashtag itself) and rank (a number between 1 and 5 representing the ranking of the hashtag based on your analysis). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format.`,
+            content: `
+			  As an expert in Instagram hashtags, your task is to provide 3 highly relevant and niche hashtags for a given topic. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the topic, which is an array of objects with two properties: hashtag (a string representing the hashtag itself) and rank (a number between 1 and 5 representing the ranking of the hashtag based on your analysis). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format
+
+			  put your hashtags in the following Json structure
+			  [
+				{"hashtag": "..", "rank": 0},
+				{"hashtag": "..", "rank": 0}
+			  ]
+			  `,
           },
           {
             role: "user",
@@ -37,20 +36,21 @@ export const handler: Handlers<null, DashboardState> = {
         model: "gpt-3.5-turbo-0301",
       });
 
-      const hashtags: { hashtag: string; rank: number }[] =
-        extractJsonFromMarkdown(choices[0].message.content);
+      const hashtags: { hashtag: string; rank: number }[] = extractJson(
+        choices[0].message.content,
+      );
       await createManyHashtag(
         ctx.state.supabaseClient,
         hashtags.map((hashtag) => ({
           name: hashtag.hashtag,
-        }))
+        })),
       );
 
       return new Response(
-        JSON.stringify(extractJsonFromMarkdown(choices[0].message.content)),
+        JSON.stringify(extractJson(choices[0].message.content)),
         {
           status: 200,
-        }
+        },
       );
     } catch (error) {
       console.error(error);
