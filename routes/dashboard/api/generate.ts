@@ -19,9 +19,9 @@ export const handler: Handlers<null, DashboardState> = {
           {
             role: "system",
             content: `
-			  As an expert in Instagram hashtags, your task is to provide 3 highly relevant and niche hashtags for a given topic. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the topic, which is an array of objects with two properties: hashtag (a string representing the hashtag itself) and rank (a number between 1 and 5 representing the ranking of the hashtag based on your analysis). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format
+			  As an expert in Instagram hashtags, your task is to provide 10 highly relevant and niche hashtags for a given topic. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the topic, which is an array of objects with two properties: hashtag (a string representing the hashtag itself) and rank (a number between 1 and 5 representing the ranking of the hashtag based on your analysis). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format
 
-			  put your hashtags in the following Json structure
+			  put your hashtags in the following format, do not include any explanations, only provide a  RFC8259 compliant JSON response  following this format without deviation
 			  [
 				{"hashtag": "..", "rank": 0},
 				{"hashtag": "..", "rank": 0}
