@@ -16,23 +16,29 @@ import * as $9 from "./routes/dashboard/_middleware.ts";
 import * as $10 from "./routes/dashboard/account.tsx";
 import * as $11 from "./routes/dashboard/api/generate.ts";
 import * as $12 from "./routes/dashboard/api/hashtag.ts";
-import * as $13 from "./routes/dashboard/api/todo.ts";
-import * as $14 from "./routes/dashboard/hashtags.tsx";
-import * as $15 from "./routes/dashboard/index.tsx";
-import * as $16 from "./routes/dashboard/manage-subscription.ts";
-import * as $17 from "./routes/dashboard/searchHashtags.tsx";
-import * as $18 from "./routes/dashboard/todos.tsx";
-import * as $19 from "./routes/dashboard/upgrade-subscription.ts";
-import * as $20 from "./routes/feed.ts";
-import * as $21 from "./routes/index.tsx";
-import * as $22 from "./routes/login/index.tsx";
-import * as $23 from "./routes/login/success.tsx";
-import * as $24 from "./routes/logout.ts";
-import * as $25 from "./routes/signup.tsx";
+import * as $13 from "./routes/dashboard/api/hashtagGroup.ts";
+import * as $14 from "./routes/dashboard/api/hashtagGroups.ts";
+import * as $15 from "./routes/dashboard/api/todo.ts";
+import * as $16 from "./routes/dashboard/hashtagGroups.tsx";
+import * as $17 from "./routes/dashboard/hashtagGroups/[id].tsx";
+import * as $18 from "./routes/dashboard/hashtags.tsx";
+import * as $19 from "./routes/dashboard/index.tsx";
+import * as $20 from "./routes/dashboard/manage-subscription.ts";
+import * as $21 from "./routes/dashboard/searchHashtags.tsx";
+import * as $22 from "./routes/dashboard/todos.tsx";
+import * as $23 from "./routes/dashboard/upgrade-subscription.ts";
+import * as $24 from "./routes/feed.ts";
+import * as $25 from "./routes/index.tsx";
+import * as $26 from "./routes/login/index.tsx";
+import * as $27 from "./routes/login/success.tsx";
+import * as $28 from "./routes/logout.ts";
+import * as $29 from "./routes/signup.tsx";
 import * as $$0 from "./islands/AuthFragmentCatcher.tsx";
-import * as $$1 from "./islands/HashtagList.tsx";
-import * as $$2 from "./islands/SearchHashtag.tsx";
-import * as $$3 from "./islands/TodoList.tsx";
+import * as $$1 from "./islands/HashtagGroupItem.tsx";
+import * as $$2 from "./islands/HashtagGroupsList.tsx";
+import * as $$3 from "./islands/HashtagList.tsx";
+import * as $$4 from "./islands/SearchHashtag.tsx";
+import * as $$5 from "./islands/TodoList.tsx";
 
 const manifest = {
   routes: {
@@ -49,25 +55,31 @@ const manifest = {
     "./routes/dashboard/account.tsx": $10,
     "./routes/dashboard/api/generate.ts": $11,
     "./routes/dashboard/api/hashtag.ts": $12,
-    "./routes/dashboard/api/todo.ts": $13,
-    "./routes/dashboard/hashtags.tsx": $14,
-    "./routes/dashboard/index.tsx": $15,
-    "./routes/dashboard/manage-subscription.ts": $16,
-    "./routes/dashboard/searchHashtags.tsx": $17,
-    "./routes/dashboard/todos.tsx": $18,
-    "./routes/dashboard/upgrade-subscription.ts": $19,
-    "./routes/feed.ts": $20,
-    "./routes/index.tsx": $21,
-    "./routes/login/index.tsx": $22,
-    "./routes/login/success.tsx": $23,
-    "./routes/logout.ts": $24,
-    "./routes/signup.tsx": $25,
+    "./routes/dashboard/api/hashtagGroup.ts": $13,
+    "./routes/dashboard/api/hashtagGroups.ts": $14,
+    "./routes/dashboard/api/todo.ts": $15,
+    "./routes/dashboard/hashtagGroups.tsx": $16,
+    "./routes/dashboard/hashtagGroups/[id].tsx": $17,
+    "./routes/dashboard/hashtags.tsx": $18,
+    "./routes/dashboard/index.tsx": $19,
+    "./routes/dashboard/manage-subscription.ts": $20,
+    "./routes/dashboard/searchHashtags.tsx": $21,
+    "./routes/dashboard/todos.tsx": $22,
+    "./routes/dashboard/upgrade-subscription.ts": $23,
+    "./routes/feed.ts": $24,
+    "./routes/index.tsx": $25,
+    "./routes/login/index.tsx": $26,
+    "./routes/login/success.tsx": $27,
+    "./routes/logout.ts": $28,
+    "./routes/signup.tsx": $29,
   },
   islands: {
     "./islands/AuthFragmentCatcher.tsx": $$0,
-    "./islands/HashtagList.tsx": $$1,
-    "./islands/SearchHashtag.tsx": $$2,
-    "./islands/TodoList.tsx": $$3,
+    "./islands/HashtagGroupItem.tsx": $$1,
+    "./islands/HashtagGroupsList.tsx": $$2,
+    "./islands/HashtagList.tsx": $$3,
+    "./islands/SearchHashtag.tsx": $$4,
+    "./islands/TodoList.tsx": $$5,
   },
   baseUrl: import.meta.url,
   config,

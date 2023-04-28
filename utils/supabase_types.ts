@@ -58,6 +58,26 @@ export interface Database {
           name?: string | null;
         };
       };
+      hashtag_group: {
+        Row: {
+          id?: string;
+          name: string | null;
+          user_id: string;
+          hashtags?: string[];
+        };
+        Insert: {
+          id?: string;
+          name?: string | null;
+          user_id?: string;
+          hashtags?: string[];
+        };
+        Update: {
+          id?: string;
+          name?: string | null;
+          user_id?: string;
+          hashtags?: string[];
+        };
+      };
     };
     Views: {
       [_ in never]: never;
