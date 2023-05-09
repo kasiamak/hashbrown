@@ -1,10 +1,6 @@
 import { z } from "zod";
 import { Configuration, OpenAIApi } from "openai";
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { env } from "~/env.mjs";
 
 function extractJson(markdown: string): { hashtag: string; rank: number }[] {
@@ -18,8 +14,8 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export const hashtagGroups = createTRPCRouter({
-  getSecretMessage: protectedProcedure
+export const gptRouter = createTRPCRouter({
+  hashtags: protectedProcedure
     .input(z.object({ term: z.string() }))
     .mutation(async ({ ctx, input: { term } }) => {
       openai;
