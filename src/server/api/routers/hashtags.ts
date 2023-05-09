@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { z } from "zod";
 
 import {
@@ -28,8 +29,26 @@ export const hashtagsRouter = createTRPCRouter({
   createHashtags: protectedProcedure
     .input(z.object({ hashtags: z.string().array() }))
     .mutation(async ({ ctx, input: { hashtags } }) => {
-      await ctx.prisma.hashtag.createMany({
-        data: hashtags.map((hashtag) => ({ name: hashtag })),
-      });
+      try {
+        const foundHashtags = (
+          await ctx.prisma.hashtag.findMany({
+            where: { name: { in: hashtags } },
+          })
+        ).map((hashtag) => hashtag.name);
+
+        await ctx.prisma.hashtag.createMany({
+          skipDuplicates: true,
+          // filter out hashtags that already exist
+          data: hashtags
+            .filter((hashtag) => !foundHashtags.includes(hashtag))
+            .map((hashtag) => ({ name: hashtag })),
+        });
+      } catch (error: unknown) {
+        if ((error as PrismaClientKnownRequestError).code === "P2002") {
+          console.log("Hashtag already exists");
+        } else {
+          throw error;
+        }
+      }
     }),
 });
