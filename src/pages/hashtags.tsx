@@ -5,7 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { useState } from "react";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import Button from "~/components/Button";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
@@ -115,15 +115,15 @@ const CreateHashtagWizard = () => {
   const { mutate, isLoading } = api.hashtags.createHashtag.useMutation({
     onSuccess: () => {
       setInput("");
-      toast.success("Created Hashtag!");
+    //   toast.success("Created Hashtag!");
       void ctx.hashtags.getAll.invalidate();
     },
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.hashtag;
       if (errorMessage && errorMessage[0]) {
-        toast.error(errorMessage[0]);
+        // toast.error(errorMessage[0]);
       } else {
-        toast.error("Failed to post! Please try again later.");
+        // toast.error("Failed to post! Please try again later.");
       }
     },
   });
