@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useState } from "react";
 // import toast from "react-hot-toast";
-import Button from "~/components/Button";
+import { Button } from "~/components/Button";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
 interface HeaderProps {
@@ -115,7 +115,7 @@ const CreateHashtagWizard = () => {
   const { mutate, isLoading } = api.hashtags.createHashtag.useMutation({
     onSuccess: () => {
       setInput("");
-    //   toast.success("Created Hashtag!");
+      //   toast.success("Created Hashtag!");
       void ctx.hashtags.getAll.invalidate();
     },
     onError: (e) => {
