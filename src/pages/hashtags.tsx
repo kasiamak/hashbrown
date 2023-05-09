@@ -1,17 +1,12 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { useState } from "react";
 // import toast from "react-hot-toast";
 import { Button } from "~/components/Button";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
-
-interface HeaderProps {
-  children?: React.ReactNode;
-}
+import { IconPlus } from "@tabler/icons-react";
 
 export function Nav(props: {
   items: { href: string; inner: React.ReactNode }[];
