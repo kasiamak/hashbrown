@@ -51,7 +51,7 @@ const Home: NextPage = () => {
           Hashbrown
         </h1>
         <p className="leading-7 [&:not(:first-child)]:mt-6">
-          enter in a topic and we'll generate hashtags for you
+          enter in a topic and we{"'"}ll generate hashtags for you
         </p>
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 pt-12 ">
           <div className="flex flex-col items-center gap-2">
