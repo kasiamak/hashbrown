@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useToast } from "~/components/Toast/use-toast";
 import { useEffect, useState } from "react";
-import { Input } from "~/components/input";
+import { Input } from "~/components/Input";
 import { Button } from "~/components/Button";
 import { Card, CardContent } from "~/components/card";
 import { IconLogin, IconLogout, IconPlus } from "@tabler/icons-react";
