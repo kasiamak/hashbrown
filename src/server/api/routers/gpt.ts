@@ -20,9 +20,7 @@ export const gptRouter = createTRPCRouter({
     .input(z.object({ term: z.string() }))
     .mutation(async ({ ctx, input: { term } }) => {
       openai;
-      const {
-        data: { choices },
-      } = await openai.createChatCompletion({
+      const response = await openai.createChatCompletion({
         messages: [
           {
             role: "system",
@@ -49,6 +47,8 @@ export const gptRouter = createTRPCRouter({
         ],
         model: "gpt-3.5-turbo-0301",
       });
+      console.log(response);
+      const { choices } = response.data;
 
       try {
         const hashtags: { hashtag: string; rank: number }[] = extractJson(
