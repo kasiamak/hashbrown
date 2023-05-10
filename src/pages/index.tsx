@@ -23,12 +23,14 @@ const Home: NextPage = () => {
       // void ctx.hashtags.getAll.invalidate();
     },
     onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors.hashtag;
-      if (errorMessage && errorMessage[0]) {
+      const errorMessage =
+        e?.message ?? e.data?.zodError?.fieldErrors.hashtag?.[0];
+      console.log(e.message);
+      if (errorMessage) {
         toast({
           variant: "destructive",
           title: "Error has occured",
-          description: errorMessage[0],
+          description: errorMessage,
         });
       } else {
         toast({
