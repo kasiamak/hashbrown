@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
@@ -8,7 +7,6 @@ import { useToast } from "~/components/Toast/use-toast";
 import { useEffect, useState } from "react";
 import { Input } from "~/components/Input";
 import { Button } from "~/components/Button";
-import { Card, CardContent } from "~/components/card";
 import { IconLogin, IconLogout, IconPlus } from "@tabler/icons-react";
 
 const Home: NextPage = () => {
@@ -70,16 +68,40 @@ const Home: NextPage = () => {
                 placeholder="Search for hashtags"
                 onChange={(e) => setTerm(e.target.value)}
               />
-              <Button disabled={isLoading} onClick={() => mutate({ term })}>
-                Search <IconPlus />
+              <Button
+                icon={<IconPlus />}
+                disabled={isLoading}
+                isLoading={isLoading}
+                onClick={() => mutate({ term })}
+              >
+                Search
               </Button>
             </div>
             {data?.length && (
-              <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
-                {data?.map(({ hashtag }) => (
-                  <li key={hashtag}>{hashtag}</li>
-                ))}
-              </ul>
+              <>
+                <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
+                  {/* <Checkbox>Select all</Checkbox> */}
+                  {data?.map(({ hashtag }) => (
+                    <li key={hashtag}>{hashtag}</li>
+                  ))}
+                </ul>
+                <Button
+                  variant="secondary"
+                  icon={<IconPlus />}
+                  onClick={() => {
+                    const hashtags = data
+                      ?.map(({ hashtag }) => hashtag)
+                      .join(" ");
+                    toast({
+                      title: "copied to clipboard",
+                      description: hashtags,
+                    });
+                    void navigator.clipboard.writeText(hashtags);
+                  }}
+                >
+                  Copy to clipboard
+                </Button>
+              </>
             )}
             {/* </Card> */}
             <AuthShowcase />
