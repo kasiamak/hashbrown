@@ -52,8 +52,20 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
-    isSubscribed     Boolean @default(false)
-    stripeCustomerId String?
+    stripeCustomerId         String?
+    stripeSubscriptionId     String?
+    stripeSubscriptionStatus StripeSubscriptionStatus?
+}
+
+enum StripeSubscriptionStatus {
+    incomplete
+    incomplete_expired
+    trialing
+    active
+    past_due
+    canceled
+    unpaid
+    paused
 }
 
 model VerificationToken {
@@ -90,4 +102,17 @@ model HashtagOnHashtagGroups {
     @@id([hashtagId, hashtagGroupId])
     @@index([hashtagId])
     @@index([hashtagGroupId])
+}
+
+model StripeEvent {
+    id               String   @id @unique
+    api_version      String?
+    data             Json
+    request          Json?
+    type             String
+    object           String
+    account          String?
+    created          DateTime
+    livemode         Boolean
+    pending_webhooks Int
 }
