@@ -8,8 +8,12 @@ import { useEffect, useState } from "react";
 import { Input } from "~/components/Input";
 import { Button } from "~/components/Button";
 import { IconLogin, IconLogout, IconPlus } from "@tabler/icons-react";
+import { ManageBillingButton } from "~/components/ManageBilling";
+import { UpgradeButton } from "~/components/UpgradeButton";
 
 const Home: NextPage = () => {
+  const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
+    api.user.subscriptionStatus.useQuery();
   const { toast } = useToast();
 
   const [term, setTerm] = useState<string>("");
@@ -62,21 +66,29 @@ const Home: NextPage = () => {
         </p>
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 pt-12 ">
           <div className="flex flex-col items-center gap-2">
-            {/* <Card className="px-6 py-4"> */}
-            <div className="flex gap-2">
-              <Input
-                placeholder="Search for hashtags"
-                onChange={(e) => setTerm(e.target.value)}
-              />
-              <Button
-                icon={<IconPlus />}
-                disabled={isLoading}
-                isLoading={isLoading}
-                onClick={() => mutate({ term })}
-              >
-                Search
-              </Button>
-            </div>
+            {!isLoadingSubscription && subscriptionStatus === null ? (
+              <>
+                <p className="text-xl text-gray-700">
+                  You are not subscribed!!!
+                </p>
+                <UpgradeButton />
+              </>
+            ) : (
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Search for hashtags"
+                  onChange={(e) => setTerm(e.target.value)}
+                />
+                <Button
+                  icon={<IconPlus />}
+                  disabled={isLoading}
+                  isLoading={isLoading}
+                  onClick={() => mutate({ term })}
+                >
+                  Search
+                </Button>
+              </div>
+            )}
             {data?.length && (
               <>
                 <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
@@ -103,7 +115,6 @@ const Home: NextPage = () => {
                 </Button>
               </>
             )}
-            {/* </Card> */}
             <AuthShowcase />
           </div>
         </div>
@@ -121,6 +132,9 @@ const AuthShowcase: React.FC = () => {
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
+
+  const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
+    api.user.subscriptionStatus.useQuery();
 
   return (
     <div className="mt-10 flex flex-col items-center justify-center gap-4">
@@ -144,6 +158,10 @@ const AuthShowcase: React.FC = () => {
           </>
         )}
       </Button>
+
+      {!isLoadingSubscription && subscriptionStatus !== null && (
+        <ManageBillingButton />
+      )}
     </div>
   );
 };
