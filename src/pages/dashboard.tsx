@@ -2,9 +2,10 @@ import type { GetServerSideProps, NextPage } from "next";
 import { getServerSession } from "next-auth";
 import { signOut } from "next-auth/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { authOptions } from "~/server/auth";
+import { ManageBillingButton } from "~/components/ManageBilling";
+import { UpgradeButton } from "~/components/UpgradeButton";
 
 const SignoutButton = () => {
   return (
