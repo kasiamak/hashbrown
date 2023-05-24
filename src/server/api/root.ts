@@ -4,6 +4,7 @@ import { hashtagsRouter } from "./routers/hashtags";
 import { gptRouter } from "./routers/gpt";
 import { stripeRouter } from "./routers/stripe";
 import { userRouter } from "./routers/user";
+import { hashtagSearchesRouter } from "./routers/hashtagSearches";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   gpt: gptRouter,
   stripe: stripeRouter,
   user: userRouter,
+  hashtagSearches: hashtagSearchesRouter,
 });
 
 // export type definition of API

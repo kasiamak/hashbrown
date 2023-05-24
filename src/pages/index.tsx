@@ -10,10 +10,21 @@ import { Button } from "~/components/Button";
 import { IconLogin, IconLogout, IconPlus } from "@tabler/icons-react";
 import { ManageBillingButton } from "~/components/ManageBilling";
 import { UpgradeButton } from "~/components/UpgradeButton";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "~/components/card";
 
 const Home: NextPage = () => {
   const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
     api.user.subscriptionStatus.useQuery();
+
+  const { data: hashtagSearches, isLoading: isLoadingHashtagSearches } =
+    api.hashtagSearches.getAll.useQuery();
+
   const { toast } = useToast();
 
   const [term, setTerm] = useState<string>("");
@@ -91,12 +102,18 @@ const Home: NextPage = () => {
             )}
             {data?.length && (
               <>
-                <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
-                  {/* <Checkbox>Select all</Checkbox> */}
-                  {data?.map(({ hashtag }) => (
-                    <li key={hashtag}>{hashtag}</li>
+                <div className="flex flex-wrap">
+                  {data.map(({ hashtag }) => (
+                    <div
+                      key={hashtag}
+                      className="m-1 flex items-center justify-center rounded-full  border border-input px-2 py-1 hover:bg-accent hover:text-accent-foreground "
+                    >
+                      <div className="max-w-full flex-initial text-xs font-normal leading-none">
+                        #{hashtag}
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
                 <Button
                   variant="secondary"
                   icon={<IconPlus />}
@@ -115,6 +132,50 @@ const Home: NextPage = () => {
                 </Button>
               </>
             )}
+            <h2 className="mb-10 mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              Past searches
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              {hashtagSearches?.map((hashtagSearch) => (
+                <Card key={hashtagSearch.id}>
+                  <CardHeader>
+                    <CardTitle>{hashtagSearch.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-col gap-4 py-4">
+                    <div className="flex flex-wrap">
+                      {hashtagSearch.hashtags?.map((hashtag) => (
+                        <div
+                          key={hashtag.hashtag.id}
+                          className="m-1 flex items-center justify-center rounded-full  border border-input px-2 py-1 hover:bg-accent hover:text-accent-foreground "
+                        >
+                          <div className="max-w-full flex-initial text-xs font-normal leading-none">
+                            {hashtag.hashtag.name}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button
+                      variant="secondary"
+                      icon={<IconPlus />}
+                      onClick={() => {
+                        const hashtags = hashtagSearch.hashtags
+                          ?.map(({ hashtag }) => hashtag.name)
+                          .join(" ");
+                        toast({
+                          title: "copied to clipboard",
+                          description: hashtags,
+                        });
+                        void navigator.clipboard.writeText(hashtags);
+                      }}
+                    >
+                      Copy to clipboard
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
             <AuthShowcase />
           </div>
         </div>

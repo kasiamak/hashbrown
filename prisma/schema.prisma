@@ -55,6 +55,8 @@ model User {
     stripeCustomerId         String?
     stripeSubscriptionId     String?
     stripeSubscriptionStatus StripeSubscriptionStatus?
+
+    hashtagSearches HashtagSearch[]
 }
 
 enum StripeSubscriptionStatus {
@@ -76,12 +78,37 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model HashtagSearch {
+    id        String                   @id @default(cuid())
+    createdAt DateTime                 @default(now())
+    updatedAt DateTime                 @updatedAt
+    name      String                   @db.VarChar(255)
+    hashtags  HashtagSearchOnHashtag[]
+    user      User                     @relation(fields: [userId], references: [id])
+    userId    String
+
+    @@index([userId])
+}
+
+model HashtagSearchOnHashtag {
+    hashtag         Hashtag       @relation(fields: [hashtagId], references: [id])
+    hashtagId       String
+    hashtagSearch   HashtagSearch @relation(fields: [hashtagSearchId], references: [id])
+    hashtagSearchId String
+    assignedAt      DateTime      @default(now())
+
+    @@id([hashtagId, hashtagSearchId])
+    @@index([hashtagId])
+    @@index([hashtagSearchId])
+}
+
 model Hashtag {
-    id            String                   @id @default(cuid())
-    createdAt     DateTime                 @default(now())
-    updatedAt     DateTime                 @updatedAt
-    name          String                   @unique @db.VarChar(255)
-    hashtagGroups HashtagOnHashtagGroups[]
+    id              String                   @id @default(cuid())
+    createdAt       DateTime                 @default(now())
+    updatedAt       DateTime                 @updatedAt
+    name            String                   @unique @db.VarChar(255)
+    hashtagGroups   HashtagOnHashtagGroups[]
+    hashtagSearches HashtagSearchOnHashtag[]
 }
 
 model HashtagGroup {

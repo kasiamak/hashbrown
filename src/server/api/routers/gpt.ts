@@ -47,7 +47,7 @@ export const gptRouter = createTRPCRouter({
         ],
         model: "gpt-3.5-turbo-0301",
       });
-      
+
       console.log(response);
       const { choices } = response.data;
 
@@ -62,7 +62,7 @@ export const gptRouter = createTRPCRouter({
           })
         ).map((hashtag) => hashtag.name);
 
-        await ctx.prisma.hashtag.createMany({
+        const createdHashtags = await ctx.prisma.hashtag.createMany({
           skipDuplicates: true,
           // filter out hashtags that already exist
           data: hashtags
@@ -70,8 +70,28 @@ export const gptRouter = createTRPCRouter({
             .map(({ hashtag }) => ({ name: hashtag })),
         });
 
+        const hashtagsToAddToSearch = (
+          await ctx.prisma.hashtag.findMany({
+            select: { id: true },
+            where: { name: { in: hashtags.map(({ hashtag }) => hashtag) } },
+          })
+        ).map((hashtag) => hashtag.id);
+
+        await ctx.prisma.hashtagSearch.create({
+          data: {
+            user: { connect: { id: ctx.session.user.id } },
+            name: term,
+            hashtags: {
+              createMany: {
+                data: hashtagsToAddToSearch.map((id) => ({ hashtagId: id })),
+              },
+            },
+          },
+        });
+
         return hashtags;
       } catch (error) {
+		console.log(error)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: choices?.[0]?.message?.content,
