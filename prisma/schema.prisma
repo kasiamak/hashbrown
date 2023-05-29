@@ -57,6 +57,7 @@ model User {
     stripeSubscriptionStatus StripeSubscriptionStatus?
 
     hashtagSearches HashtagSearch[]
+    HashtagGroup    HashtagGroup[]
 }
 
 enum StripeSubscriptionStatus {
@@ -117,6 +118,10 @@ model HashtagGroup {
     updatedAt DateTime                 @updatedAt
     name      String                   @db.VarChar(255)
     hashtags  HashtagOnHashtagGroups[]
+    user      User                     @relation(fields: [userId], references: [id])
+    userId    String
+
+    @@index([userId])
 }
 
 model HashtagOnHashtagGroups {

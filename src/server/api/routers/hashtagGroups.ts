@@ -7,16 +7,45 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 
-export const hashtagGroups = createTRPCRouter({
+export const hashtagGroupsRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.hashtagGroup.findMany();
+    return ctx.prisma.hashtagGroup.findMany({
+      select: {
+        name: true,
+        id: true,
+        hashtags: {
+          select: {
+            hashtag: true,
+          },
+        },
+      },
+      where: {
+        userId: {
+          equals: ctx.session?.user.id,
+        },
+      },
+    });
   }),
 
   createHashtagGroup: protectedProcedure
-    .input(z.object({ name: z.string() }))
-    .mutation(async ({ ctx, input: { name } }) => {
+    .input(z.object({ name: z.string(), hashtags: z.array(z.string()) }))
+    .mutation(async ({ ctx, input: { name, hashtags } }) => {
       await ctx.prisma.hashtagGroup.create({
-        data: { name },
+        data: {
+          name,
+          hashtags: {
+            createMany: {
+              data: hashtags.map((hashtag) => ({
+                hashtagId: hashtag,
+              })),
+            },
+          },
+          user: {
+            connect: {
+              id: ctx.session?.user.id,
+            },
+          },
+        },
       });
     }),
 
@@ -65,31 +94,27 @@ export const hashtagGroups = createTRPCRouter({
       });
     }),
 
-  removeHashtagFromHashtagGroup: protectedProcedure
-    .input(z.object({ hashtagGroupId: z.string(), hashtag: z.string() }))
-    .mutation(async ({ ctx, input: { hashtagGroupId, hashtag } }) => {
-      const foundHashtag = await ctx.prisma.hashtag.findUnique({
-        where: { name: hashtag },
-      });
-
-      if (!foundHashtag) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "An unexpected error occurred, please try again later.",
-        });
-      }
-
+  updateHashtagGroupName: protectedProcedure
+    .input(z.object({ hashtagGroupId: z.string(), name: z.string() }))
+    .mutation(async ({ ctx, input: { hashtagGroupId, name } }) => {
       // disconnect the hashtag from the hashtag group
       await ctx.prisma.hashtagGroup.update({
-        where: { id: hashtagGroupId },
-        data: {
-          hashtags: {
-            disconnect: {
-              hashtagId_hashtagGroupId: {
-                hashtagGroupId: hashtagGroupId,
-                hashtagId: foundHashtag.id,
-              },
-            },
+        data: { name },
+        where: {
+          id: hashtagGroupId,
+        },
+      });
+    }),
+
+  removeHashtagFromHashtagGroup: protectedProcedure
+    .input(z.object({ hashtagGroupId: z.string(), hashtagId: z.string() }))
+    .mutation(async ({ ctx, input: { hashtagGroupId, hashtagId } }) => {
+      // disconnect the hashtag from the hashtag group
+      await ctx.prisma.hashtagOnHashtagGroups.delete({
+        where: {
+          hashtagId_hashtagGroupId: {
+            hashtagGroupId,
+            hashtagId,
           },
         },
       });

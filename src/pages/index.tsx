@@ -4,10 +4,17 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { useToast } from "~/components/Toast/use-toast";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Input } from "~/components/Input";
 import { Button } from "~/components/Button";
-import { IconLogin, IconLogout, IconPlus } from "@tabler/icons-react";
+import debounce from "lodash.debounce";
+import {
+  IconLogin,
+  IconLogout,
+  IconPlus,
+  IconTrash,
+  IconX,
+} from "@tabler/icons-react";
 import { ManageBillingButton } from "~/components/ManageBilling";
 import { UpgradeButton } from "~/components/UpgradeButton";
 import {
@@ -17,6 +24,154 @@ import {
   CardContent,
   CardFooter,
 } from "~/components/card";
+import { Hashtag, HashtagGroup } from "@prisma/client";
+import { TrashIcon } from "lucide-react";
+import { useDebounce } from "~/utils/useDebouce";
+
+const CreateHashtagGroup = ({
+  name,
+  hashtagIds,
+}: {
+  name: string;
+  hashtagIds: string[];
+}) => {
+  const utils = api.useContext();
+  const { mutate, isLoading } =
+    api.hashtagGroups.createHashtagGroup.useMutation({
+      onSuccess: async () => {
+        await utils.hashtagGroups.getAll.invalidate();
+      },
+    });
+
+  return (
+    <Button
+      isLoading={isLoading}
+      variant="secondary"
+      icon={<IconPlus />}
+      onClick={() => mutate({ name, hashtags: hashtagIds })}
+    >
+      Add to collection
+    </Button>
+  );
+};
+
+const HashtagGroup = ({
+  hashtagGroup,
+  onNameChange,
+  onDelete,
+}: {
+  hashtagGroup: Omit<HashtagGroup, "updatedAt" | "createdAt" | "userId"> & {
+    hashtags: { hashtag: Hashtag }[];
+  };
+  onNameChange: (name: string, hashtagGroupId: string) => void;
+  onDelete: (hashtagGroupId: string, hashtagId: string) => void;
+}) => {
+  const [name, setName] = useState<string>(hashtagGroup.name);
+
+  const debouceChange = useDebounce(onNameChange, 1000);
+
+  return (
+    <Card key={hashtagGroup.id}>
+      <CardHeader>
+        <CardTitle>
+          <Input
+            variant="text"
+            value={name}
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            onChange={(event) => {
+              setName(event.target.value);
+              debouceChange(event.target.value, hashtagGroup.id);
+            }}
+          />
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4 py-4">
+        <div className="flex flex-wrap">
+          {hashtagGroup.hashtags?.map((hashtag) => (
+            <div
+              key={hashtag.hashtag.id}
+              className="group/item relative m-1 flex  items-center justify-center rounded-md border border-input p-2 hover:bg-accent hover:text-accent-foreground"
+            >
+              <div className="max-w-full flex-initial text-xs font-normal leading-none group-hover/item:invisible">
+                {hashtag.hashtag.name}
+              </div>
+              <div
+                className="group/edit invisible absolute flex cursor-pointer gap-1 text-red-400 group-hover/item:visible"
+                onClick={() => onDelete(hashtagGroup.id, hashtag.hashtag.id)}
+              >
+                <div className="max-w-full flex-initial text-xs font-normal leading-none">
+                  delete
+                </div>
+                <TrashIcon size={14} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+      <CardFooter className="gap-2">
+        {/* <Button
+variant="secondary"
+icon={<IconPlus />}
+onClick={() => {
+  const hashtags = hashtagGroup
+    ?.map(({ hashtag }) => hashtag.name)
+    .join(" ");
+  toast({
+    title: "copied to clipboard",
+    description: hashtags,
+  });
+  void navigator.clipboard.writeText(hashtags);
+}}
+>
+Copy to clipboard
+</Button> */}
+      </CardFooter>
+    </Card>
+  );
+};
+
+const MyHashtagGroups = () => {
+  const utils = api.useContext();
+  const { data: hashtagGroups, isLoading: isLoadingHashtagGroups } =
+    api.hashtagGroups.getAll.useQuery();
+
+  const { mutate: updateHashtagGroupName } =
+    api.hashtagGroups.updateHashtagGroupName.useMutation({
+      onSuccess: async () => {
+        // do this better in future
+        await utils.hashtagGroups.getAll.invalidate();
+      },
+    });
+
+  const { mutate: removeHashtagGroup } =
+    api.hashtagGroups.removeHashtagFromHashtagGroup.useMutation({
+      onSuccess: async () => {
+        await utils.hashtagGroups.getAll.invalidate();
+      },
+    });
+
+  return (
+    <>
+      <h2 className="mb-10 mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+        My hashtag groups
+      </h2>
+      <div className="grid grid-cols-2 gap-4">
+        {hashtagGroups?.map((hashtagGroup) => (
+          <HashtagGroup
+            key={hashtagGroup.id}
+            hashtagGroup={hashtagGroup}
+            onDelete={(hashtagGroupId, hashtagId) =>
+              removeHashtagGroup({ hashtagGroupId, hashtagId })
+            }
+            onNameChange={(name, hashtagGroupId) =>
+              updateHashtagGroupName({ name, hashtagGroupId })
+            }
+          />
+        ))}
+      </div>
+    </>
+  );
+};
 
 const Home: NextPage = () => {
   const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
@@ -132,6 +287,7 @@ const Home: NextPage = () => {
                 </Button>
               </>
             )}
+            <MyHashtagGroups />
             <h2 className="mb-10 mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
               Past searches
             </h2>
@@ -155,7 +311,7 @@ const Home: NextPage = () => {
                       ))}
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="gap-2">
                     <Button
                       variant="secondary"
                       icon={<IconPlus />}
@@ -172,6 +328,12 @@ const Home: NextPage = () => {
                     >
                       Copy to clipboard
                     </Button>
+                    <CreateHashtagGroup
+                      name={hashtagSearch.name}
+                      hashtagIds={hashtagSearch.hashtags?.map(
+                        ({ hashtag }) => hashtag.id
+                      )}
+                    />
                   </CardFooter>
                 </Card>
               ))}

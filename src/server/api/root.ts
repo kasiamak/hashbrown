@@ -5,6 +5,7 @@ import { gptRouter } from "./routers/gpt";
 import { stripeRouter } from "./routers/stripe";
 import { userRouter } from "./routers/user";
 import { hashtagSearchesRouter } from "./routers/hashtagSearches";
+import { hashtagGroupsRouter } from "./routers/hashtagGroups";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ import { hashtagSearchesRouter } from "./routers/hashtagSearches";
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   hashtags: hashtagsRouter,
+  hashtagGroups: hashtagGroupsRouter,
   gpt: gptRouter,
   stripe: stripeRouter,
   user: userRouter,
