@@ -12,6 +12,9 @@ export const hashtagSearchesRouter = createTRPCRouter({
           },
         },
       },
+	  orderBy: {
+		updatedAt: 'desc'
+	  },
       where: {
         userId: {
           equals: ctx.session?.user.id,

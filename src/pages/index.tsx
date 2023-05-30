@@ -4,17 +4,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { useToast } from "~/components/Toast/use-toast";
-import { useCallback, useEffect, useState } from "react";
-import { Input } from "~/components/Input";
+import { useEffect, useState } from "react";
+import { Input } from "~/components/InputBox";
 import { Button } from "~/components/Button";
-import debounce from "lodash.debounce";
-import {
-  IconLogin,
-  IconLogout,
-  IconPlus,
-  IconTrash,
-  IconX,
-} from "@tabler/icons-react";
+import { IconClipboardCopy, IconLogin, IconLogout, IconPlus, IconTrash } from "@tabler/icons-react";
 import { ManageBillingButton } from "~/components/ManageBilling";
 import { UpgradeButton } from "~/components/UpgradeButton";
 import {
@@ -25,7 +18,6 @@ import {
   CardFooter,
 } from "~/components/card";
 import { Hashtag, HashtagGroup } from "@prisma/client";
-import { TrashIcon } from "lucide-react";
 import { useDebounce } from "~/utils/useDebouce";
 
 const CreateHashtagGroup = ({
@@ -50,7 +42,7 @@ const CreateHashtagGroup = ({
       icon={<IconPlus />}
       onClick={() => mutate({ name, hashtags: hashtagIds })}
     >
-      Add to collection
+      Save hashtags
     </Button>
   );
 };
@@ -102,7 +94,7 @@ const HashtagGroup = ({
                 <div className="max-w-full flex-initial text-xs font-normal leading-none">
                   delete
                 </div>
-                <TrashIcon size={14} />
+                <IconTrash size={14} />
               </div>
             </div>
           ))}
@@ -271,7 +263,7 @@ const Home: NextPage = () => {
                 </div>
                 <Button
                   variant="secondary"
-                  icon={<IconPlus />}
+                  icon={<IconClipboardCopy />}
                   onClick={() => {
                     const hashtags = data
                       ?.map(({ hashtag }) => hashtag)
@@ -314,7 +306,7 @@ const Home: NextPage = () => {
                   <CardFooter className="gap-2">
                     <Button
                       variant="secondary"
-                      icon={<IconPlus />}
+                      icon={<IconClipboardCopy />}
                       onClick={() => {
                         const hashtags = hashtagSearch.hashtags
                           ?.map(({ hashtag }) => hashtag.name)
