@@ -1,12 +1,11 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+} from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   subscriptionStatus: protectedProcedure.query(async ({ ctx }) => {
     const { session, prisma } = ctx;
-
-    if (!session.user?.id) {
-      throw new Error("Not authenticated");
-    }
 
     const data = await prisma.user.findUnique({
       where: {

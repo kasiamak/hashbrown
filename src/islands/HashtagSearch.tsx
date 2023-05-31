@@ -39,16 +39,17 @@ export const HashtagSearch = () => {
     },
   });
 
-  
+  console.log({ isLoadingSubscription, subscriptionStatus });
+
   return (
     <>
-      {!isLoadingSubscription && subscriptionStatus === null ? (
+      {!isLoadingSubscription && !subscriptionStatus ? (
         <>
           <p className="text-xl text-gray-700">You are not subscribed!!!</p>
           <UpgradeButton />
         </>
       ) : (
-        <div className="flex gap-2 max-w-sm">
+        <div className="flex max-w-sm gap-2">
           <Input
             placeholder="Search for hashtags"
             onChange={(e) => setTerm(e.target.value)}
@@ -69,10 +70,10 @@ export const HashtagSearch = () => {
             {data.map(({ hashtag }) => (
               <div
                 key={hashtag}
-                className="m-1 flex items-center justify-center rounded-full  border border-input px-2 py-1 hover:bg-accent hover:text-accent-foreground "
+                className="m-1  flex items-center justify-center rounded-md border border-input h-10 px-2 py-1   "
               >
                 <div className="max-w-full flex-initial text-xs font-normal leading-none">
-                  #{hashtag}
+                  {hashtag}
                 </div>
               </div>
             ))}

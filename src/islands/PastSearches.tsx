@@ -30,7 +30,12 @@ const CreateHashtagGroup = ({
       isLoading={isLoading}
       variant="secondary"
       icon={<IconPlus />}
-      onClick={() => mutate({ name, hashtags: hashtagIds })}
+      onClick={() => {
+        mutate({ name, hashtags: hashtagIds });
+        toast({
+          title: "Saved"
+        });
+      }}
     >
       Save hashtags
     </Button>
@@ -43,18 +48,18 @@ export const PastSearches = () => {
   return (
     <>
       {hashtagSearches?.map((hashtagSearch) => (
-        <Card key={hashtagSearch.id}>
+        <Card key={hashtagSearch.id} className="flex flex-col">
           <CardHeader>
             <CardTitle>{hashtagSearch.name}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4 py-4">
+          <CardContent className="flex flex-grow flex-col gap-4 py-4">
             <div className="flex flex-wrap">
               {hashtagSearch.hashtags?.map((hashtag) => (
                 <div
                   key={hashtag.hashtag.id}
-                  className="m-1 flex items-center justify-center rounded-full  border border-input px-2 py-1 hover:bg-accent hover:text-accent-foreground "
+                  className="group/item relative m-1 flex  items-center justify-center rounded-md border border-input p-2 hover:bg-accent hover:text-accent-foreground"
                 >
-                  <div className="max-w-full flex-initial text-xs font-normal leading-none">
+                  <div className="max-w-full flex-initial text-xs font-normal leading-none ">
                     {hashtag.hashtag.name}
                   </div>
                 </div>

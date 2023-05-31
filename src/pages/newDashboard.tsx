@@ -7,6 +7,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/Avatar";
 import { PastSearches } from "~/islands/PastSearches";
 import { SavedHashtags } from "~/islands/SavedHashtags";
 import { HashtagSearch } from "~/islands/HashtagSearch";
+import { api } from "~/utils/api";
+import { signIn, useSession } from "next-auth/react";
+import { Button } from "~/components/Button";
+import { IconLogin } from "@tabler/icons-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/Tabs";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -14,6 +19,33 @@ export const metadata: Metadata = {
 };
 
 export default function NewDashboardPage() {
+  const { data: sessionData } = useSession();
+
+  console.log("session Data", sessionData);
+  //   const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
+  //     api.user.subscriptionStatus.useQuery();
+
+  //   if (isLoadingSubscription) {
+  //     return <div> loading</div>;
+  //   }
+
+  if (!sessionData) {
+    return (
+      <div className="hidden h-screen flex-col items-center justify-center md:flex">
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          You are not logged in
+        </h3>
+        <Button
+          className="max-w-sm gap-2"
+          variant="ghost"
+          onClick={() => void signIn()}
+        >
+          Sign in <IconLogin />
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="md:hidden">
@@ -44,10 +76,16 @@ export default function NewDashboardPage() {
             </Avatar>
             <h1 className="text-3xl font-bold tracking-tight">Hashbrown</h1>
             <MainNav className="mx-6" />
-            <div className="ml-auto flex items-center space-x-4">
-              {/* <Search /> */}
-              <UserNav />
-            </div>
+            {sessionData?.user && (
+              <div className="ml-auto flex items-center space-x-4">
+                {/* <Search /> */}
+                <UserNav
+                  name={sessionData.user.name ?? ""}
+                  email={sessionData.user.email ?? ""}
+                  image={sessionData.user.image ?? ""}
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className="flex-1 space-y-6 p-8 pt-6">
@@ -60,33 +98,25 @@ export default function NewDashboardPage() {
               </Button> */}
             </div>
           </div>
-          {/* <Tabs defaultValue="overview" className="space-y-4">
+		  
+		  <HashtagSearch />
+          <Tabs defaultValue="saved" className="space-y-4">
             <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
-                Reports
-              </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
+              <TabsTrigger value="saved">Saved</TabsTrigger>
+              <TabsTrigger value="searches">Searches</TabsTrigger>
+              {/* <TabsTrigger value="notifications" disabled>
                 Notifications
-              </TabsTrigger>
+              </TabsTrigger> */}
             </TabsList>
-            <TabsContent value="overview" className="space-y-4"> */}
-          <HashtagSearch />
-          <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-            Saved hashtags
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <SavedHashtags />
-          </div>
-          <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-            Past searches
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <PastSearches />
-            {/* <Card>
+            <TabsContent value="saved" className="space-y-4">
+              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+                Saved hashtags
+              </h2>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <SavedHashtags />
+              </div>
+
+              {/* <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Total Revenue
@@ -140,9 +170,7 @@ export default function NewDashboardPage() {
                     </p>
                   </CardContent>
                 </Card> */}
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            {/* <Card className="col-span-4">
+              {/* <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
@@ -150,7 +178,7 @@ export default function NewDashboardPage() {
                     <Overview />
                   </CardContent>
                 </Card> */}
-            {/* <Card className="col-span-3">
+              {/* <Card className="col-span-3">
                   <CardHeader>
                     <CardTitle>Recent Sales</CardTitle>
                     <CardDescription>
@@ -161,9 +189,16 @@ export default function NewDashboardPage() {
                     <RecentSales />
                   </CardContent>
                 </Card> */}
-          </div>
-          {/* </TabsContent>
-          </Tabs> */}
+            </TabsContent>
+            <TabsContent value="searches" className="space-y-4">
+              <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+                Past searches
+              </h2>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <PastSearches />
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </>

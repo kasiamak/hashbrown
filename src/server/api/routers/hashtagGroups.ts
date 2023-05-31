@@ -8,7 +8,7 @@ import {
 } from "~/server/api/trpc";
 
 export const hashtagGroupsRouter = createTRPCRouter({
-  getAll: publicProcedure.query(({ ctx }) => {
+  getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.hashtagGroup.findMany({
       select: {
         name: true,
@@ -55,13 +55,24 @@ export const hashtagGroupsRouter = createTRPCRouter({
   deleteHashtagGroup: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input: { id } }) => {
+      await ctx.prisma.hashtagOnHashtagGroups.deleteMany({
+        where: { hashtagGroupId: id },
+      });
+
       await ctx.prisma.hashtagGroup.delete({
         where: { id },
       });
     }),
 
   addHashtagToHashtagGroup: protectedProcedure
-    .input(z.object({ hashtagGroupId: z.string(), hashtag: z.string() }))
+    .input(
+      z.object({
+        hashtagGroupId: z.string(),
+        hashtag: z
+          .string()
+          .regex(/^#[\p{L}\p{Mn}\p{Pc}0-9_]+$/u, "Invalid hashtag format"),
+      })
+    )
     .mutation(async ({ ctx, input: { hashtagGroupId, hashtag } }) => {
       const existingHashtag = await ctx.prisma.hashtag.findUnique({
         where: { name: hashtag },
@@ -81,16 +92,43 @@ export const hashtagGroupsRouter = createTRPCRouter({
         hashtagId = id;
       }
 
-      // Add the hashtag to the hashtag group
-      await ctx.prisma.hashtagGroup.update({
-        where: { id: hashtagGroupId },
-        data: {
+      console.log(
+        "data",
+        JSON.stringify({
           hashtags: {
             connect: {
               hashtagId_hashtagGroupId: {
                 hashtagGroupId: hashtagGroupId,
                 hashtagId: hashtagId,
               },
+            },
+          },
+        })
+      );
+      // Add the hashtag to the hashtag group
+      await ctx.prisma.hashtagGroup.update({
+        where: { id: hashtagGroupId },
+        data: {
+          hashtags: {
+            create: {
+              hashtag: {
+                connectOrCreate: {
+                  where: {
+                    id: hashtagId,
+                  },
+                  create: {
+                    id: hashtagId,
+                    name: hashtag,
+                  },
+                },
+              },
+              //   hashtag: hashtag,
+              // 	hashtagId: hashtagId
+
+              //   hashtagId_hashtagGroupId: {
+              // 	hashtagGroupId: hashtagGroupId,
+              // 	hashtagId: hashtagId
+              //   }
             },
           },
         },
