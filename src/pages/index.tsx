@@ -115,7 +115,7 @@ onClick={() => {
   void navigator.clipboard.writeText(hashtags);
 }}
 >
-Copy to clipboard
+Copy
 </Button> */}
       </CardFooter>
     </Card>
@@ -275,7 +275,7 @@ const Home: NextPage = () => {
                     void navigator.clipboard.writeText(hashtags);
                   }}
                 >
-                  Copy to clipboard
+                  Copy
                 </Button>
               </>
             )}
@@ -318,7 +318,7 @@ const Home: NextPage = () => {
                         void navigator.clipboard.writeText(hashtags);
                       }}
                     >
-                      Copy to clipboard
+                      Copy
                     </Button>
                     <CreateHashtagGroup
                       name={hashtagSearch.name}

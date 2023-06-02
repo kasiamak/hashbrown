@@ -126,9 +126,6 @@ const HashtagGroup = ({
                   });
                 }}
               >
-                <small className="max-w-full flex-initial text-sm font-medium leading-none">
-                  delete
-                </small>
                 {/* <div className="max-w-full flex-initial text-xs font-normal leading-none">
                   delete
                 </div> */}
@@ -155,7 +152,7 @@ const HashtagGroup = ({
             void navigator.clipboard.writeText(hashtags);
           }}
         >
-          Copy to clipboard
+          Copy
         </Button>{" "}
         <Button
           variant="destructive"

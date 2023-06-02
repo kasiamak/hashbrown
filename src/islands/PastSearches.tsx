@@ -81,7 +81,7 @@ export const PastSearches = () => {
                 void navigator.clipboard.writeText(hashtags);
               }}
             >
-              Copy to clipboard
+              Copy
             </Button>
             <CreateHashtagGroup
               name={hashtagSearch.name}

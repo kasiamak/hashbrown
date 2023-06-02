@@ -90,7 +90,7 @@ export const HashtagSearch = () => {
               void navigator.clipboard.writeText(hashtags);
             }}
           >
-            Copy to clipboard
+            Copy
           </Button>
         </>
       )}
