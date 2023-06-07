@@ -7,7 +7,7 @@ import { useToast } from "~/components/Toast/use-toast";
 import { useEffect, useState } from "react";
 import { Input } from "~/components/InputBox";
 import { Button } from "~/components/Button";
-import { IconClipboardCopy, IconLogin, IconLogout, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconClipboardCopy, IconDeviceFloppy, IconLogin, IconLogout, IconPlus, IconTrash } from "@tabler/icons-react";
 import { ManageBillingButton } from "~/components/ManageBilling";
 import { UpgradeButton } from "~/components/UpgradeButton";
 import {
@@ -39,10 +39,10 @@ const CreateHashtagGroup = ({
     <Button
       isLoading={isLoading}
       variant="secondary"
-      icon={<IconPlus />}
+      icon={<IconDeviceFloppy />}
       onClick={() => mutate({ name, hashtags: hashtagIds })}
     >
-      Save hashtags
+      Save
     </Button>
   );
 };
