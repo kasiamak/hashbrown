@@ -1,12 +1,11 @@
 import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 export { reportWebVitals } from "next-axiom";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import { Toaster } from "~/components/Toast/Toaster";
 import { type Metadata } from "next";
+import { ClerkProvider } from '@clerk/nextjs';
 
 export const metadata: Metadata = {
   creator: "hashbrown",
@@ -16,15 +15,15 @@ export const metadata: Metadata = {
   ],
 };
 
-const MyApp: AppType<{ session: Session | null }> = ({
+const MyApp: AppType = ({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps
 }) => {
   return (
-    <SessionProvider session={session}>
+    <ClerkProvider {...pageProps}>
       <Toaster />
       <Component {...pageProps} />
-    </SessionProvider>
+    </ClerkProvider>
   );
 };
 

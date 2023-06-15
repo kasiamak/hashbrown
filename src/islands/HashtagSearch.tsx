@@ -10,7 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { useToast } from "~/components/Toast/use-toast";
 import { Checkbox } from "~/components/checkbox";
-import { TabContext, TabDispatchContext } from "~/pages/newDashboard";
+import { TabContext, TabDispatchContext } from "~/pages/dashboard";
 
 export const HashtagSearch = () => {
   const { toast } = useToast();
@@ -54,9 +54,11 @@ export const HashtagSearch = () => {
     },
   });
 
+  console.log("subscriptionStatus", subscriptionStatus);
+
   return (
     <>
-      {!isLoadingSubscription && !subscriptionStatus ? (
+      {!subscriptionStatus ? (
         <>
           <p className="text-xl text-gray-700">You are not subscribed!!!</p>
           <UpgradeButton />

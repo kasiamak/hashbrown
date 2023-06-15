@@ -17,9 +17,9 @@ import {
   IconCirclePlus,
   IconLogout,
 } from "@tabler/icons-react";
-import { signOut } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { useClerk } from "@clerk/nextjs";
 
 export interface UserNavProps {
   email: string;
@@ -28,6 +28,7 @@ export interface UserNavProps {
 }
 
 export function UserNav({ image, name, email }: UserNavProps) {
+  const { signOut } = useClerk();
   const { mutateAsync: createBillingPortalSession } =
     api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();

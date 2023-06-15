@@ -13,7 +13,7 @@ import {
   CardContent,
   CardFooter,
 } from "~/components/card";
-import { TabDispatchContext } from "~/pages/newDashboard";
+import { TabDispatchContext } from "~/pages/dashboard";
 import { api } from "~/utils/api";
 
 const CreateHashtagGroup = ({

@@ -1,15 +1,20 @@
 import { env } from "~/env.mjs";
 import { getOrCreateStripeCustomerIdForUser } from "~/server/stripe/stripe-webhook-handlers";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-
+import { getAuth } from "@clerk/nextjs/server";
 export const stripeRouter = createTRPCRouter({
   createCheckoutSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, session, prisma, req } = ctx;
+    const { stripe, userId, prisma, req } = ctx;
+    const user = getAuth(ctx.req);
+    user.user?.firstName;
+    user.user?.primaryEmailAddressId?.toString();
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId: session.user?.id,
+      userId,
+      name: user.user?.firstName ?? "",
+      email: user.user?.primaryEmailAddressId?.toString() ?? "",
     });
 
     if (!customerId) {
@@ -23,7 +28,7 @@ export const stripeRouter = createTRPCRouter({
 
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
-      client_reference_id: session.user?.id,
+      client_reference_id: userId,
       payment_method_types: ["card"],
       mode: "subscription",
       line_items: [
@@ -36,7 +41,7 @@ export const stripeRouter = createTRPCRouter({
       cancel_url: `${baseUrl}/?checkoutCanceled=true`,
       subscription_data: {
         metadata: {
-          userId: session.user?.id,
+          userId,
         },
       },
     });
@@ -48,12 +53,12 @@ export const stripeRouter = createTRPCRouter({
     return { checkoutUrl: checkoutSession.url };
   }),
   createBillingPortalSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, session, prisma, req } = ctx;
+    const { stripe, userId, prisma, req } = ctx;
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId: session.user?.id,
+      userId,
     });
 
     if (!customerId) {

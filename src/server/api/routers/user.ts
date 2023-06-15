@@ -1,18 +1,15 @@
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   subscriptionStatus: protectedProcedure.query(async ({ ctx }) => {
-    const { session, prisma } = ctx;
+    const { userId, prisma } = ctx;
 
-    const data = await prisma.user.findUnique({
+    const data = await prisma.stripeSubscription.findFirst({
       where: {
-        id: session.user?.id,
+        userId: userId,
       },
       select: {
-        stripeSubscriptionStatus: true,
+        status: true,
       },
     });
 
@@ -20,6 +17,6 @@ export const userRouter = createTRPCRouter({
       throw new Error("Could not find user");
     }
 
-    return data.stripeSubscriptionStatus;
+    return data.status;
   }),
 });

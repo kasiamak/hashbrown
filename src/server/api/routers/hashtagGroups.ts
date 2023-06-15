@@ -8,7 +8,7 @@ import {
 } from "~/server/api/trpc";
 
 export const hashtagGroupsRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(({ ctx }) => {
+  getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.hashtagGroup.findMany({
       select: {
         name: true,
@@ -24,7 +24,7 @@ export const hashtagGroupsRouter = createTRPCRouter({
       },
       where: {
         userId: {
-          equals: ctx.session?.user.id,
+          equals: ctx.userId ?? ''
         },
       },
     });
@@ -43,11 +43,7 @@ export const hashtagGroupsRouter = createTRPCRouter({
               })),
             },
           },
-          user: {
-            connect: {
-              id: ctx.session?.user.id,
-            },
-          },
+          userId: ctx.userId
         },
       });
     }),

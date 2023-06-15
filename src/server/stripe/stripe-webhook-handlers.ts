@@ -6,27 +6,32 @@ export const getOrCreateStripeCustomerIdForUser = async ({
   stripe,
   prisma,
   userId,
+  email,
+  name,
 }: {
   stripe: Stripe;
   prisma: PrismaClient;
   userId: string;
+  email: string;
+  name: string;
 }) => {
-  const user = await prisma.user.findUnique({
+  const stripeSubscription = await prisma.stripeSubscription.findFirst({
     where: {
-      id: userId,
+      userId: userId,
+    },
+    select: {
+      stripeCustomerId: true,
     },
   });
 
-  if (!user) throw new Error("User not found");
-
-  if (user.stripeCustomerId) {
-    return user.stripeCustomerId;
+  if (stripeSubscription?.stripeCustomerId) {
+    return stripeSubscription.stripeCustomerId;
   }
 
-  // create a new customer
+  // create a new subscription
   const customer = await stripe.customers.create({
-    email: user.email ?? undefined,
-    name: user.name ?? undefined,
+    email,
+    name,
     // use metadata to link this Stripe customer to internal user id
     metadata: {
       userId,
@@ -34,17 +39,19 @@ export const getOrCreateStripeCustomerIdForUser = async ({
   });
 
   // update with new customer id
-  const updatedUser = await prisma.user.update({
-    where: {
-      id: userId,
-    },
+  const updatedSubscription = await prisma.stripeSubscription.create({
     data: {
+      status: "incomplete",
+      userId,
       stripeCustomerId: customer.id,
+    },
+    select: {
+      stripeCustomerId: true,
     },
   });
 
-  if (updatedUser.stripeCustomerId) {
-    return updatedUser.stripeCustomerId;
+  if (updatedSubscription.stripeCustomerId) {
+    return updatedSubscription.stripeCustomerId;
   }
 };
 
@@ -65,13 +72,13 @@ export const handleInvoicePaid = async ({
   const userId = subscription.metadata.userId;
 
   // update user with subscription data
-  await prisma.user.update({
+  await prisma.stripeSubscription.update({
     where: {
-      id: userId,
+      userId: userId,
     },
     data: {
       stripeSubscriptionId: subscription.id,
-      stripeSubscriptionStatus: subscription.status,
+      status: subscription.status,
     },
   });
 };
@@ -87,13 +94,13 @@ export const handleSubscriptionCreatedOrUpdated = async ({
   const userId = subscription.metadata.userId;
 
   // update user with subscription data
-  await prisma.user.update({
+  await prisma.stripeSubscription.update({
     where: {
-      id: userId,
+		userId: userId,
     },
     data: {
       stripeSubscriptionId: subscription.id,
-      stripeSubscriptionStatus: subscription.status,
+      status: subscription.status,
     },
   });
 };
@@ -109,13 +116,13 @@ export const handleSubscriptionCanceled = async ({
   const userId = subscription.metadata.userId;
 
   // remove subscription data from user
-  await prisma.user.update({
+  await prisma.stripeSubscription.update({
     where: {
-      id: userId,
+      userId: userId,
     },
     data: {
       stripeSubscriptionId: null,
-      stripeSubscriptionStatus: null,
+      status: 'canceled',
     },
   });
 };
