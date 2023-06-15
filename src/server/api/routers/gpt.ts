@@ -45,7 +45,7 @@ export const gptRouter = createTRPCRouter({
             content: term,
           },
         ],
-        model: "gpt-3.5-turbo-0301",
+        model: "gpt-3.5-turbo-0613",
       });
 
       console.log(response);
