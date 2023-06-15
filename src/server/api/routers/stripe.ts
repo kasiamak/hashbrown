@@ -6,8 +6,6 @@ export const stripeRouter = createTRPCRouter({
   createCheckoutSession: protectedProcedure.mutation(async ({ ctx }) => {
     const { stripe, userId, prisma, req } = ctx;
     const user = getAuth(ctx.req);
-    user.user?.firstName;
-    user.user?.primaryEmailAddressId?.toString();
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
@@ -54,11 +52,14 @@ export const stripeRouter = createTRPCRouter({
   }),
   createBillingPortalSession: protectedProcedure.mutation(async ({ ctx }) => {
     const { stripe, userId, prisma, req } = ctx;
+    const user = getAuth(ctx.req);
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
       userId,
+      name: user.user?.firstName ?? "",
+      email: user.user?.primaryEmailAddressId?.toString() ?? "",
     });
 
     if (!customerId) {
