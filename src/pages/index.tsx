@@ -250,13 +250,13 @@ const Home: NextPage = () => {
             {data?.length && (
               <>
                 <div className="flex flex-wrap">
-                  {data.map(({ hashtag }) => (
+                  {data.map(({ name }) => (
                     <div
-                      key={hashtag}
+                      key={name}
                       className="m-1 flex items-center justify-center rounded-full  border border-input px-2 py-1 hover:bg-accent hover:text-accent-foreground "
                     >
                       <div className="max-w-full flex-initial text-xs font-normal leading-none">
-                        #{hashtag}
+                        #{name}
                       </div>
                     </div>
                   ))}
@@ -266,7 +266,7 @@ const Home: NextPage = () => {
                   icon={<IconClipboardCopy />}
                   onClick={() => {
                     const hashtags = data
-                      ?.map(({ hashtag }) => hashtag)
+                      ?.map(({ name }) => name)
                       .join(" ");
                     toast({
                       title: "copied to clipboard",

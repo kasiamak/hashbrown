@@ -76,13 +76,15 @@ export const PastSearches = () => {
       <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
         Past searches
       </h2>
+	  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+	  {/* @ts-ignore */}
       {hashtagSearches?.length > 0 && (
         <Button
           variant="secondary"
           icon={<IconEyeOff />}
           onClick={() => {
             hideAllMutation({
-              ids: hashtagSearches?.map(({ id }) => id),
+              ids: hashtagSearches?.map(({ id }) => id) ?? [],
               hidden: true,
             });
             toast({
