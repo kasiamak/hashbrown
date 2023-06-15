@@ -1,22 +1,25 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 // import { useRouter } from "next/router";
-import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { SignInButton, UserButton, useClerk, useUser } from "@clerk/nextjs";
+import { Button } from "~/components/Button";
+import { IconLogin } from "@tabler/icons-react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-//   const router = useRouter();
+  const { redirectToSignIn, session } = useClerk();
   const { user } = useUser();
-  console.log('user', user)
+  const router = useRouter();
+  console.log("user", user);
 
-  //   const { data: sessionData } = useSession();
-
-  //   useEffect(() => {
-  //     if (sessionData) {
-  //       void router.push({
-  //         pathname: "/dashboard",
-  //       });
-  //     }
-  //   }, [router, sessionData]);
+  useEffect(() => {
+    if (session) {
+      void router.push({
+        pathname: "/dashboard",
+      });
+    }
+  }, [router, session]);
   return (
     <>
       <Head>
@@ -28,24 +31,13 @@ const Home: NextPage = () => {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Hashbrown
         </h1>
-        {/* <Button
+        <Button
           className="max-w-sm gap-2"
           variant="ghost"
-          onClick={() => void signIn()}
+          onClick={() => void redirectToSignIn()}
         >
           Sign in <IconLogin />
-        </Button> */}
-        <SignInButton />
-        <UserButton
-          appearance={{
-            elements: {
-              userButtonAvatarBox: {
-                width: 56,
-                height: 56,
-              },
-            },
-          }}
-        />
+        </Button>
       </main>
     </>
   );
