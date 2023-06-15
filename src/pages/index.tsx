@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   const { redirectToSignIn, session } = useClerk();
   const { user } = useUser();
   const router = useRouter();
