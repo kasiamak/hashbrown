@@ -87,6 +87,7 @@ model HashtagSearch {
     hashtags  HashtagSearchOnHashtag[]
     user      User                     @relation(fields: [userId], references: [id])
     userId    String
+    hidden    Boolean                 @default(false)
 
     @@index([userId])
 }

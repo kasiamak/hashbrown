@@ -68,12 +68,14 @@ type Team = (typeof groups)[number]["teams"][number]
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface TeamSwitcherProps extends PopoverTriggerProps {}
+type TeamSwitcherProps = PopoverTriggerProps
 
 export default function TeamSwitcher({ className }: TeamSwitcherProps) {
   const [open, setOpen] = React.useState(false)
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false)
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
     groups[0].teams[0]
   )
 

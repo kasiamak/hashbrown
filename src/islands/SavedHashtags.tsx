@@ -93,9 +93,10 @@ const HashtagGroup = ({
 
   return (
     <Card key={hashtagGroup.id} className="flex flex-col">
-      <CardHeader>
+      <CardHeader className="pb-0">
         <CardTitle className="flex">
           <Input
+            className="text-lg font-semibold leading-none tracking-tight"
             variant="text"
             value={name}
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -111,7 +112,7 @@ const HashtagGroup = ({
           {hashtagGroup.hashtags?.map((hashtag) => (
             <div
               key={hashtag.hashtag.id}
-              className="group/item h-10 relative m-1 flex  items-center justify-center rounded-md border border-input p-2 hover:bg-accent hover:text-accent-foreground"
+              className="group/item relative m-1 flex h-10  items-center justify-center rounded-md border border-input p-2 hover:bg-accent hover:text-accent-foreground"
             >
               <div className="max-w-full flex-initial text-xs font-normal leading-none group-hover/item:invisible">
                 {hashtag.hashtag.name}
@@ -126,9 +127,6 @@ const HashtagGroup = ({
                   });
                 }}
               >
-                <small className="max-w-full flex-initial text-sm font-medium leading-none">
-                  delete
-                </small>
                 {/* <div className="max-w-full flex-initial text-xs font-normal leading-none">
                   delete
                 </div> */}
@@ -155,10 +153,11 @@ const HashtagGroup = ({
             void navigator.clipboard.writeText(hashtags);
           }}
         >
-          Copy to clipboard
-        </Button>{" "}
+          Copy
+        </Button>
         <Button
-          variant="destructive"
+          className="  hover:bg-destructive/90"
+          variant="ghost"
           icon={<IconTrash />}
           onClick={() => {
             void onDeleteHashtagGroup(hashtagGroup.id);

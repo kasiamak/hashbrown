@@ -7,7 +7,7 @@ import { useToast } from "~/components/Toast/use-toast";
 import { useEffect, useState } from "react";
 import { Input } from "~/components/InputBox";
 import { Button } from "~/components/Button";
-import { IconClipboardCopy, IconLogin, IconLogout, IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconClipboardCopy, IconDeviceFloppy, IconLogin, IconLogout, IconPlus, IconTrash } from "@tabler/icons-react";
 import { ManageBillingButton } from "~/components/ManageBilling";
 import { UpgradeButton } from "~/components/UpgradeButton";
 import {
@@ -39,10 +39,10 @@ const CreateHashtagGroup = ({
     <Button
       isLoading={isLoading}
       variant="secondary"
-      icon={<IconPlus />}
+      icon={<IconDeviceFloppy />}
       onClick={() => mutate({ name, hashtags: hashtagIds })}
     >
-      Save hashtags
+      Save
     </Button>
   );
 };
@@ -115,7 +115,7 @@ onClick={() => {
   void navigator.clipboard.writeText(hashtags);
 }}
 >
-Copy to clipboard
+Copy
 </Button> */}
       </CardFooter>
     </Card>
@@ -250,13 +250,13 @@ const Home: NextPage = () => {
             {data?.length && (
               <>
                 <div className="flex flex-wrap">
-                  {data.map(({ hashtag }) => (
+                  {data.map(({ name }) => (
                     <div
-                      key={hashtag}
+                      key={name}
                       className="m-1 flex items-center justify-center rounded-full  border border-input px-2 py-1 hover:bg-accent hover:text-accent-foreground "
                     >
                       <div className="max-w-full flex-initial text-xs font-normal leading-none">
-                        #{hashtag}
+                        #{name}
                       </div>
                     </div>
                   ))}
@@ -266,7 +266,7 @@ const Home: NextPage = () => {
                   icon={<IconClipboardCopy />}
                   onClick={() => {
                     const hashtags = data
-                      ?.map(({ hashtag }) => hashtag)
+                      ?.map(({ name }) => name)
                       .join(" ");
                     toast({
                       title: "copied to clipboard",
@@ -275,7 +275,7 @@ const Home: NextPage = () => {
                     void navigator.clipboard.writeText(hashtags);
                   }}
                 >
-                  Copy to clipboard
+                  Copy
                 </Button>
               </>
             )}
@@ -318,7 +318,7 @@ const Home: NextPage = () => {
                         void navigator.clipboard.writeText(hashtags);
                       }}
                     >
-                      Copy to clipboard
+                      Copy
                     </Button>
                     <CreateHashtagGroup
                       name={hashtagSearch.name}
