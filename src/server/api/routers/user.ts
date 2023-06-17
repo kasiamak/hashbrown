@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
@@ -14,7 +15,10 @@ export const userRouter = createTRPCRouter({
     });
 
     if (!data) {
-      throw new Error("Could not find user");
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "No valid subscription found",
+      });
     }
 
     return data.status;

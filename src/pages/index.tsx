@@ -12,7 +12,6 @@ const Home: NextPage = () => {
   const { redirectToSignIn, session } = useClerk();
   const { user } = useUser();
   const router = useRouter();
-  console.log("user", user);
 
   useEffect(() => {
     if (session) {

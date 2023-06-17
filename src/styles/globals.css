@@ -70,10 +70,6 @@
   }
 }
 
-body {
-  @apply dark;
-}
-
 @layer base {
   * {
     @apply border-border;

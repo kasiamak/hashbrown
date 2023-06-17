@@ -1,7 +1,6 @@
 import { Input } from "~/components/InputBox";
 import { useContext, useState } from "react";
 import { api } from "~/utils/api";
-import { UpgradeButton } from "~/components/UpgradeButton";
 import { Button } from "~/components/Button";
 import {
   IconClipboardCopy,
@@ -11,6 +10,19 @@ import {
 import { useToast } from "~/components/Toast/use-toast";
 import { Checkbox } from "~/components/checkbox";
 import { TabContext, TabDispatchContext } from "~/pages/dashboard";
+import { StripeSubscriptionStatus } from "@prisma/client";
+import { Alert, AlertDescription, AlertTitle } from "~/components/alert";
+import { AlertCircleIcon } from "lucide-react";
+
+const isValidSubscription = (status: StripeSubscriptionStatus | undefined) => {
+  const validSubscriptions: StripeSubscriptionStatus[] = [
+    StripeSubscriptionStatus.active,
+    StripeSubscriptionStatus.trialing,
+  ];
+  if (!status) return false;
+  if (validSubscriptions.includes(status)) return true;
+  return false;
+};
 
 export const HashtagSearch = () => {
   const { toast } = useToast();
@@ -21,15 +33,24 @@ export const HashtagSearch = () => {
   const [term, setTerm] = useState<string>("");
   const [selected, setSelected] = useState<string[]>([]);
 
-  const { data: subscriptionStatus, isLoading: isLoadingSubscription } =
-    api.user.subscriptionStatus.useQuery();
+  const {
+    data: subscriptionStatus,
+    isLoading: isLoadingSubscription,
+    error,
+  } = api.user.subscriptionStatus.useQuery(undefined, {
+    // dont retry subscription status
+    // we want to show the user the error stright away
+    retry: false,
+  });
 
   const { mutate, isLoading, data } = api.gpt.hashtags.useMutation({
-    onSuccess: (data) => setSelected(data.map(({ id }) => id)),
+    onSuccess: async (data) => {
+      setSelected(data.map(({ id }) => id));
+      await utils.hashtagSearches.getAll.invalidate();
+    },
     onError: (e) => {
       const errorMessage =
         e?.message ?? e.data?.zodError?.fieldErrors.hashtag?.[0];
-      console.log(e.message);
       if (errorMessage) {
         toast({
           variant: "destructive",
@@ -54,35 +75,38 @@ export const HashtagSearch = () => {
     },
   });
 
-  console.log("subscriptionStatus", subscriptionStatus);
-
   return (
     <>
-      {!subscriptionStatus ? (
-        <>
-          <p className="text-xl text-gray-700">You are not subscribed!!!</p>
-          <UpgradeButton />
-        </>
-      ) : (
-        <div className="flex max-w-sm gap-2">
-          <Input
-            placeholder="Search for hashtags"
-            onChange={(e) => setTerm(e.target.value)}
-            // if user presses enter in input lets search
-            onKeyDown={(event) => {
-              if (event.key === "Enter") mutate({ term });
-            }}
-          />
-          <Button
-            icon={<IconSearch className="h-4 w-4 shrink-0 opacity-50" />}
-            disabled={isLoading}
-            isLoading={isLoading}
-            onClick={() => mutate({ term })}
-          >
-            Search
-          </Button>
-        </div>
+      {!isLoadingSubscription && error && (
+        <Alert variant="destructive" className="max-w-sm">
+          <AlertCircleIcon className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error?.message}</AlertDescription>
+        </Alert>
       )}
+      <div className="flex max-w-sm gap-2">
+        <Input
+          disabled={Boolean(error) || !isValidSubscription(subscriptionStatus)}
+          placeholder="Search for hashtags"
+          onChange={(e) => setTerm(e.target.value)}
+          // if user presses enter in input lets search
+          onKeyDown={(event) => {
+            if (event.key === "Enter") mutate({ term });
+          }}
+        />
+        <Button
+          icon={<IconSearch className="h-4 w-4 shrink-0 opacity-50" />}
+          disabled={
+            isLoading ||
+            Boolean(error) ||
+            !isValidSubscription(subscriptionStatus)
+          }
+          isLoading={isLoading}
+          onClick={() => mutate({ term })}
+        >
+          Search
+        </Button>
+      </div>
       {data?.length && (
         <>
           <div className="flex flex-wrap">

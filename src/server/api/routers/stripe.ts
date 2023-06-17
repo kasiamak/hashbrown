@@ -3,14 +3,14 @@ import { getOrCreateStripeCustomerIdForUser } from "~/server/stripe/stripe-webho
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { getAuth } from "@clerk/nextjs/server";
 export const stripeRouter = createTRPCRouter({
-  createCheckoutSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, userId, prisma, req } = ctx;
+  createCheckoutSession: protectedProcedure.query(async ({ ctx }) => {
+    const { stripe, prisma, req } = ctx;
     const user = getAuth(ctx.req);
-
+    
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId,
+      userId: user.userId ?? "",
       name: user.user?.firstName ?? "",
       email: user.user?.primaryEmailAddressId?.toString() ?? "",
     });
@@ -26,7 +26,7 @@ export const stripeRouter = createTRPCRouter({
 
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
-      client_reference_id: userId,
+      client_reference_id: user.userId ?? "",
       payment_method_types: ["card"],
       mode: "subscription",
       line_items: [
@@ -35,11 +35,11 @@ export const stripeRouter = createTRPCRouter({
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/?checkoutSuccess=true`,
+      success_url: `${baseUrl}/dashboard/?checkoutSuccess=true`,
       cancel_url: `${baseUrl}/?checkoutCanceled=true`,
       subscription_data: {
         metadata: {
-          userId,
+          userId: user.userId ?? "",
         },
       },
     });
@@ -51,13 +51,13 @@ export const stripeRouter = createTRPCRouter({
     return { checkoutUrl: checkoutSession.url };
   }),
   createBillingPortalSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, userId, prisma, req } = ctx;
+    const { stripe, prisma, req } = ctx;
     const user = getAuth(ctx.req);
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId,
+      userId: user.userId ?? "",
       name: user.user?.firstName ?? "",
       email: user.user?.primaryEmailAddressId?.toString() ?? "",
     });

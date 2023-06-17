@@ -25,7 +25,6 @@ const AddHashtag = ({ hashtagGroupId }: { hashtagGroupId: string }) => {
     api.hashtagGroups.addHashtagToHashtagGroup.useMutation({
       onError: (e) => {
         const errorMessage = e?.data?.zodError?.fieldErrors.hashtag?.[0];
-        console.log("woop", errorMessage);
         if (errorMessage) {
           toast({
             variant: "destructive",
