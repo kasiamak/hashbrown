@@ -19,7 +19,7 @@ export const hashtagSearchesRouter = createTRPCRouter({
       where: {
         hidden: false,
         userId: {
-          equals: ctx.userId,
+          equals: ctx.auth.userId,
         },
       },
     });

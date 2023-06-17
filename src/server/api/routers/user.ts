@@ -3,11 +3,11 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   subscriptionStatus: protectedProcedure.query(async ({ ctx }) => {
-    const { userId, prisma } = ctx;
+    const { auth, prisma } = ctx;
 
     const data = await prisma.stripeSubscription.findFirst({
       where: {
-        userId: userId,
+        userId: auth.userId,
       },
       select: {
         status: true,

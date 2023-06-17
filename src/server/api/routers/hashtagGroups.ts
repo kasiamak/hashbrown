@@ -24,7 +24,7 @@ export const hashtagGroupsRouter = createTRPCRouter({
       },
       where: {
         userId: {
-          equals: ctx.userId ?? "",
+          equals: ctx.auth.userId ?? "",
         },
       },
     });
@@ -43,7 +43,7 @@ export const hashtagGroupsRouter = createTRPCRouter({
               })),
             },
           },
-          userId: ctx.userId,
+          userId: ctx.auth.userId,
         },
       });
     }),

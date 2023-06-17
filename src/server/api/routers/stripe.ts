@@ -4,15 +4,14 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { getAuth } from "@clerk/nextjs/server";
 export const stripeRouter = createTRPCRouter({
   createCheckoutSession: protectedProcedure.query(async ({ ctx }) => {
-    const { stripe, prisma, req } = ctx;
-    const user = getAuth(ctx.req);
-    
+    const { stripe, prisma, req, auth } = ctx;
+
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId: user.userId ?? "",
-      name: user.user?.firstName ?? "",
-      email: user.user?.primaryEmailAddressId?.toString() ?? "",
+      userId: auth.userId,
+      name: auth.user?.firstName ?? "",
+      email: auth.user?.primaryEmailAddressId?.toString() ?? "",
     });
 
     if (!customerId) {
@@ -26,7 +25,7 @@ export const stripeRouter = createTRPCRouter({
 
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
-      client_reference_id: user.userId ?? "",
+      client_reference_id: auth.userId ?? "",
       payment_method_types: ["card"],
       mode: "subscription",
       line_items: [
@@ -39,7 +38,7 @@ export const stripeRouter = createTRPCRouter({
       cancel_url: `${baseUrl}/?checkoutCanceled=true`,
       subscription_data: {
         metadata: {
-          userId: user.userId ?? "",
+          userId: auth.userId ?? "",
         },
       },
     });
@@ -51,15 +50,14 @@ export const stripeRouter = createTRPCRouter({
     return { checkoutUrl: checkoutSession.url };
   }),
   createBillingPortalSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, prisma, req } = ctx;
-    const user = getAuth(ctx.req);
+    const { stripe, prisma, req, auth } = ctx;
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId: user.userId ?? "",
-      name: user.user?.firstName ?? "",
-      email: user.user?.primaryEmailAddressId?.toString() ?? "",
+      userId: auth.userId ?? "",
+      name: auth.user?.firstName ?? "",
+      email: auth.user?.primaryEmailAddressId?.toString() ?? "",
     });
 
     if (!customerId) {
