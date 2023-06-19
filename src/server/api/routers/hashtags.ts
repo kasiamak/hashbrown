@@ -45,7 +45,6 @@ export const hashtagsRouter = createTRPCRouter({
         });
       } catch (error: unknown) {
         if ((error as PrismaClientKnownRequestError).code === "P2002") {
-          console.log("Hashtag already exists");
         } else {
           throw error;
         }

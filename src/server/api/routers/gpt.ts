@@ -79,7 +79,7 @@ export const gptRouter = createTRPCRouter({
 
         await ctx.prisma.hashtagSearch.create({
           data: {
-			userId: ctx.userId,
+            userId: ctx.auth.userId,
             name: term,
             hashtags: {
               createMany: {

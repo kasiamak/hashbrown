@@ -10,13 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./DropdownMenu";
 import { Button } from "./Button";
-import {
-  IconUser,
-  IconCreditCard,
-  IconSettings,
-  IconCirclePlus,
-  IconLogout,
-} from "@tabler/icons-react";
+import { IconCreditCard, IconLogout } from "@tabler/icons-react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useClerk } from "@clerk/nextjs";
@@ -32,6 +26,7 @@ export function UserNav({ image, name, email }: UserNavProps) {
   const { mutateAsync: createBillingPortalSession } =
     api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

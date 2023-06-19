@@ -24,7 +24,7 @@ export const hashtagGroupsRouter = createTRPCRouter({
       },
       where: {
         userId: {
-          equals: ctx.userId ?? ''
+          equals: ctx.auth.userId ?? "",
         },
       },
     });
@@ -43,7 +43,7 @@ export const hashtagGroupsRouter = createTRPCRouter({
               })),
             },
           },
-          userId: ctx.userId
+          userId: ctx.auth.userId,
         },
       });
     }),
@@ -88,19 +88,6 @@ export const hashtagGroupsRouter = createTRPCRouter({
         hashtagId = id;
       }
 
-      console.log(
-        "data",
-        JSON.stringify({
-          hashtags: {
-            connect: {
-              hashtagId_hashtagGroupId: {
-                hashtagGroupId: hashtagGroupId,
-                hashtagId: hashtagId,
-              },
-            },
-          },
-        })
-      );
       // Add the hashtag to the hashtag group
       await ctx.prisma.hashtagGroup.update({
         where: { id: hashtagGroupId },
