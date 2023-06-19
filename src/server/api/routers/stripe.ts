@@ -24,6 +24,7 @@ export const stripeRouter = createTRPCRouter({
         : `https://${req.headers.host ?? env.NEXTAUTH_URL}`;
 
     const checkoutSession = await stripe.checkout.sessions.create({
+      allow_promotion_codes: true,
       customer: customerId,
       client_reference_id: auth.userId ?? "",
       payment_method_types: ["card"],
