@@ -1,6 +1,5 @@
 import "~/styles/globals.css";
 import { type AppType } from "next/app";
-export { reportWebVitals } from "next-axiom";
 import { api } from "~/utils/api";
 import { Toaster } from "~/components/Toast/Toaster";
 import { type Metadata } from "next";
