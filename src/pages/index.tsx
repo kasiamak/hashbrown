@@ -13,13 +13,13 @@ const Home: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
 
-  useEffect(() => {
-    if (session) {
-      void router.push({
-        pathname: "/dashboard",
-      });
-    }
-  }, [router, session]);
+  // useEffect(() => {
+  //   if (session) {
+  //     void router.push({
+  //       pathname: "/dashboard",
+  //     });
+  //   }
+  // }, [router, session]);
   return (
     <>
       <Head>
