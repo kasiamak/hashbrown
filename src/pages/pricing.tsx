@@ -7,6 +7,7 @@ import { IconLogin } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Card } from "~/components/card";
 
 const Pricing: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -31,16 +32,16 @@ const Pricing: NextPage = () => {
       <section
         id="pricing"
         aria-label="Pricing"
-        className="w-full bg-slate-900 py-20 sm:py-32"
+        className="w-full py-20 sm:py-32"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="md:text-center">
-            <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
+            <h2 className="font-display text-3xl tracking-tight  sm:text-4xl">
               <span className="relative whitespace-nowrap">
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 281 40"
-                  className="absolute left-0 top-1/2 h-[1em] w-full fill-blue-400"
+                  className="absolute left-0 top-1/2 h-[1em] w-full fill-foreground/20"
                   preserveAspectRatio="none"
                 >
                   <path
@@ -53,96 +54,96 @@ const Pricing: NextPage = () => {
               </span>{" "}
               for everyone.
             </h2>
-            <p className="mt-4 text-lg text-slate-400">
-              For creators by creators
-            </p>
+            <p className="mt-4 text-lg">For creators by creators</p>
           </div>
           <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
             <section className="flex flex-col rounded-3xl px-6 sm:px-8 lg:py-8"></section>
-            <section className="order-first flex flex-col rounded-3xl bg-blue-600 px-6 py-8 sm:px-8 lg:order-none">
-              <h3 className="font-display mt-5 text-lg text-white">Creator</h3>
-              <p className="mt-2 text-base text-white">
-                Perfect for creators who want to build their audience.
-              </p>
-              <p className="font-display order-first text-5xl font-light tracking-tight text-white">
-                $15
-              </p>
-              <ul
-                role="list"
-                className="order-last mt-10 flex flex-col gap-y-3 text-sm text-white"
-              >
-                <li className="flex">
-                  <svg
-                    aria-hidden="true"
-                    className="h-6 w-6 flex-none fill-current stroke-current text-white"
-                  >
-                    <path
-                      d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
-                      stroke-width="0"
-                    ></path>
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="8.25"
-                      fill="none"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></circle>
-                  </svg>
-                  <span className="ml-4">Unlimited hashtag generation</span>
-                </li>
-                <li className="flex">
-                  <svg
-                    aria-hidden="true"
-                    className="h-6 w-6 flex-none fill-current stroke-current text-white"
-                  >
-                    <path
-                      d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
-                      stroke-width="0"
-                    ></path>
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="8.25"
-                      fill="none"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></circle>
-                  </svg>
-                  <span className="ml-4">Save hashtags</span>
-                </li>
-                <li className="flex">
-                  <svg
-                    aria-hidden="true"
-                    className="h-6 w-6 flex-none fill-current stroke-current text-white"
-                  >
-                    <path
-                      d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
-                      stroke-width="0"
-                    ></path>
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="8.25"
-                      fill="none"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></circle>
-                  </svg>
-                  <span className="ml-4">Generate hashtags for captions</span>
-                </li>
-              </ul>
-              <Button
-                className="group mt-8 inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-blue-50 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:bg-blue-200 active:text-slate-600"
-                aria-label="Get started with the creator plan for $15"
-                onClick={() => void redirectToSignIn()}
-              >
-                Get started
-              </Button>
-            </section>
+            <Card>
+              <section className="order-first flex flex-col rounded-3xl px-6 py-8 sm:px-8 lg:order-none">
+                <h3 className="font-display mt-5 text-lg ">Creator</h3>
+                <p className="mt-2 text-base ">
+                  Perfect for creators who want to build their audience.
+                </p>
+                <p className="font-display order-first text-5xl font-light tracking-tight ">
+                  $9
+                </p>
+                <ul
+                  role="list"
+                  className="order-last mt-10 flex flex-col gap-y-3 text-sm "
+                >
+                  <li className="flex">
+                    <svg
+                      aria-hidden="true"
+                      className="h-6 w-6 flex-none fill-current stroke-current "
+                    >
+                      <path
+                        d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
+                        stroke-width="0"
+                      ></path>
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.25"
+                        fill="none"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></circle>
+                    </svg>
+                    <span className="ml-4">Unlimited hashtag generation</span>
+                  </li>
+                  <li className="flex">
+                    <svg
+                      aria-hidden="true"
+                      className="h-6 w-6 flex-none fill-current stroke-current "
+                    >
+                      <path
+                        d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
+                        stroke-width="0"
+                      ></path>
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.25"
+                        fill="none"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></circle>
+                    </svg>
+                    <span className="ml-4">Save hashtags</span>
+                  </li>
+                  <li className="flex">
+                    <svg
+                      aria-hidden="true"
+                      className="h-6 w-6 flex-none fill-current stroke-current "
+                    >
+                      <path
+                        d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
+                        stroke-width="0"
+                      ></path>
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.25"
+                        fill="none"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></circle>
+                    </svg>
+                    <span className="ml-4">Generate hashtags for captions</span>
+                  </li>
+                </ul>
+                <Button
+                  className="mt-8"
+                  aria-label="Get started with the creator plan for $9"
+                  onClick={() => void redirectToSignIn()}
+                >
+                  Get started
+                </Button>
+              </section>
+            </Card>
             <section className="flex flex-col rounded-3xl px-6 sm:px-8 lg:py-8"></section>
           </div>
         </div>
