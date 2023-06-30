@@ -38,7 +38,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-
+  icon?: React.ReactNode;
   isLoading?: boolean;
 }
 
@@ -51,6 +51,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       asChild = false,
       children,
       isLoading,
+      icon,
       ...props
     },
     ref
@@ -63,7 +64,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {" "}
-        {children} {isLoading && <IconLoader2 className="animate-spin" />}
+        {children}
+        {!isLoading && icon}
+        {isLoading && <IconLoader2 className="animate-spin" />}
       </Comp>
     );
   }

@@ -95,7 +95,7 @@ export const HashtagSearch = () => {
           }}
         />
         <Button
-          icon={<IconSearch className="h-4 w-4 shrink-0 opacity-50" />}
+          icon={}
           disabled={
             isLoading ||
             Boolean(error) ||
