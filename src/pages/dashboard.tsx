@@ -25,7 +25,6 @@ export const TabDispatchContext = createContext<(tab: Tabs) => void>(() => {});
 type Tabs = "saved" | "searches";
 
 export default function NewDashboardPage() {
-  const { user } = useUser();
 
   const [tab, setTab] = useState<Tabs>("saved");
 
@@ -76,30 +75,7 @@ export default function NewDashboardPage() {
               className="hidden dark:block"
             />
           </div>
-          <div className="hidden flex-col md:flex">
-            <div className="border-b">
-              <div className="flex h-16 items-center px-8">
-                {/* <Avatar className="mr-2 h-8 w-8">
-                  <AvatarImage
-                    src={`https://avatar.vercel.sh/monsters.png`}
-                    alt={"monsters"}
-                  />
-                  <AvatarFallback>MI</AvatarFallback>
-                </Avatar> */}
-                <h1 className="text-3xl font-bold tracking-tight">Hashbrown</h1>
-                <MainNav className="mx-6" />
-                {user && (
-                  <div className="ml-auto flex items-center space-x-4">
-                    {/* <Search /> */}
-                    <UserNav
-                      name={user.fullName ?? ""}
-                      email={user.primaryEmailAddress?.toString() ?? ""}
-                      image={user.imageUrl ?? ""}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="flex-col md:flex">
             <div className="flex-1 space-y-6 p-8 pt-6">
               <div className="flex items-center justify-between space-y-2">
                 <div className="flex items-center space-x-2">

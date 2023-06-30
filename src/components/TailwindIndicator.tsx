@@ -1,5 +1,5 @@
 export function TailwindIndicator() {
-    if (process.env.NODE_ENV === "production") return null
+    if (process.env.NODE_ENV === "development") return null
   
     // helps you know what screen size you are on :)
     return (

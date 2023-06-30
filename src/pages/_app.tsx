@@ -9,6 +9,7 @@ import { fontSans } from "~/utils/fonts";
 import { cn } from "~/utils/utils";
 import { ThemeProvider } from "~/components/ThemeProvider";
 import { TailwindIndicator } from "~/components/TailwindIndicator";
+import Layout from "~/components/Layout";
 
 export const metadata: Metadata = {
   creator: "hashbrown",
@@ -39,7 +40,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <ClerkProvider {...pageProps}>
           <Toaster />
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ClerkProvider>
       </ThemeProvider>
       <TailwindIndicator />
