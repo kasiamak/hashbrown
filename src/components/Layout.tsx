@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Nav } from "./Nav";
 
-export default function Layout({ children }) {
+export default function Layout(props: { children?: React.ReactNode }) {
   return (
     <>
       <Nav />
       <main className="flex min-h-screen flex-col items-center justify-center">
-        {children}
+        {props.children}
       </main>
       <footer className="bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
