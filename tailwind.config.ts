@@ -1,7 +1,8 @@
 import { type Config } from "tailwindcss";
 
 export default {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: ["class"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -53,12 +54,12 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: '0' },
+          from: { height: "0"},
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: '0' },
+          to: { height: "0" },
         },
       },
       animation: {

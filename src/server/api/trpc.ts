@@ -19,24 +19,32 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { prisma } from "~/server/db";
 import { stripe } from "~/server/stripe/client";
 
+interface AuthContext {
+  auth: SignedInAuthObject | SignedOutAuthObject;
+}
+
+// eslint-disable-next-line @typescript-eslint/require-await
+export const createContextInner = async ({ auth }: AuthContext) => {
+  return {
+    auth,
+  };
+};
+
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: CreateNextContextOptions) => {
+export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
-  const sesh = getAuth(req);
-
-  const userId = sesh.userId;
 
   return {
+    ...(await createContextInner({ auth: getAuth(opts.req) })),
     prisma,
-    userId,
-	stripe,
-	req,
-	res
+    stripe,
+    req,
+    res,
   };
 };
 
@@ -45,24 +53,30 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
  *
  * This is where the tRPC API is initialized, connecting the context and transformer.
  */
-import { initTRPC, TRPCError } from "@trpc/server";
+import { type inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { getAuth } from "@clerk/nextjs/server";
+import {
+  getAuth,
+  type SignedInAuthObject,
+  type SignedOutAuthObject,
+} from "@clerk/nextjs/server";
 import { ZodError } from "zod";
 
-const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
-});
+const t = initTRPC
+  .context<inferAsyncReturnType<typeof createTRPCContext>>()
+  .create({
+    transformer: superjson,
+    errorFormatter({ shape, error }) {
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          zodError:
+            error.cause instanceof ZodError ? error.cause.flatten() : null,
+        },
+      };
+    },
+  });
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
@@ -88,7 +102,7 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.userId) {
+  if (!ctx.auth.userId) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
     });
@@ -96,7 +110,7 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
 
   return next({
     ctx: {
-      userId: ctx.userId,
+      auth: ctx.auth,
     },
   });
 });

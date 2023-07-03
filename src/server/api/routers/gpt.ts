@@ -27,6 +27,8 @@ export const gptRouter = createTRPCRouter({
             content: `
             As an expert in Instagram hashtags, your task is to provide 10 highly relevant and niche hashtags for a given term, no term is too challenging. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the term, which is an array of objects with two properties: hashtag (a string representing the hashtag itself) and rank (a number between 1 and 5 representing the ranking of the hashtag based on your analysis). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format.
 
+            Do not include hashtags which are not used.
+
             Do not include any explanations, only provide a RFC8259 compliant JSON response following this format without deviation. Do not include "Here are 10 highly relevant and niche hashtags for term:"
             ${JSON.stringify(
               [
@@ -79,7 +81,7 @@ export const gptRouter = createTRPCRouter({
 
         await ctx.prisma.hashtagSearch.create({
           data: {
-			userId: ctx.userId,
+            userId: ctx.auth.userId,
             name: term,
             hashtags: {
               createMany: {

@@ -38,6 +38,7 @@ export const getOrCreateStripeCustomerIdForUser = async ({
     },
   });
 
+
   // update with new customer id
   const updatedSubscription = await prisma.stripeSubscription.create({
     data: {
@@ -96,7 +97,7 @@ export const handleSubscriptionCreatedOrUpdated = async ({
   // update user with subscription data
   await prisma.stripeSubscription.update({
     where: {
-		userId: userId,
+      userId: userId,
     },
     data: {
       stripeSubscriptionId: subscription.id,
@@ -122,7 +123,7 @@ export const handleSubscriptionCanceled = async ({
     },
     data: {
       stripeSubscriptionId: null,
-      status: 'canceled',
+      status: "canceled",
     },
   });
 };

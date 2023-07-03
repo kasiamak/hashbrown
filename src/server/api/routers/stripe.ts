@@ -3,16 +3,15 @@ import { getOrCreateStripeCustomerIdForUser } from "~/server/stripe/stripe-webho
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { getAuth } from "@clerk/nextjs/server";
 export const stripeRouter = createTRPCRouter({
-  createCheckoutSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, userId, prisma, req } = ctx;
-    const user = getAuth(ctx.req);
+  createCheckoutSession: protectedProcedure.query(async ({ ctx }) => {
+    const { stripe, prisma, req, auth } = ctx;
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId,
-      name: user.user?.firstName ?? "",
-      email: user.user?.primaryEmailAddressId?.toString() ?? "",
+      userId: auth.userId,
+      name: auth.user?.firstName ?? "",
+      email: auth.user?.primaryEmailAddressId?.toString() ?? "",
     });
 
     if (!customerId) {
@@ -27,7 +26,7 @@ export const stripeRouter = createTRPCRouter({
     const checkoutSession = await stripe.checkout.sessions.create({
       allow_promotion_codes: true,
       customer: customerId,
-      client_reference_id: userId,
+      client_reference_id: auth.userId ?? "",
       payment_method_types: ["card"],
       mode: "subscription",
       line_items: [
@@ -36,11 +35,11 @@ export const stripeRouter = createTRPCRouter({
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/?checkoutSuccess=true`,
+      success_url: `${baseUrl}/dashboard/?checkoutSuccess=true`,
       cancel_url: `${baseUrl}/?checkoutCanceled=true`,
       subscription_data: {
         metadata: {
-          userId,
+          userId: auth.userId ?? "",
         },
       },
     });
@@ -52,15 +51,14 @@ export const stripeRouter = createTRPCRouter({
     return { checkoutUrl: checkoutSession.url };
   }),
   createBillingPortalSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, userId, prisma, req } = ctx;
-    const user = getAuth(ctx.req);
+    const { stripe, prisma, req, auth } = ctx;
 
     const customerId = await getOrCreateStripeCustomerIdForUser({
       prisma,
       stripe,
-      userId,
-      name: user.user?.firstName ?? "",
-      email: user.user?.primaryEmailAddressId?.toString() ?? "",
+      userId: auth.userId ?? "",
+      name: auth.user?.firstName ?? "",
+      email: auth.user?.primaryEmailAddressId?.toString() ?? "",
     });
 
     if (!customerId) {
