@@ -173,7 +173,7 @@ const Home: NextPage = () => {
       <Header>
         <Nav items={headerNavItems} />
       </Header>
-      <main className="flex min-h-screen flex-row gap-8 p-8">
+      <main className="flex flex-row gap-8 p-8">
         <SidebarNav items={sidebarNavItems} />
 
         <div className="space-y-4">

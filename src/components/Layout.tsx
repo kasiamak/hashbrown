@@ -5,14 +5,11 @@ export default function Layout(props: { children?: React.ReactNode }) {
   return (
     <>
       <Nav />
-      <main className="flex min-h-screen flex-col items-center justify-center">
+      <main className="flex  min-h-screen flex-col">
         {props.children}
       </main>
       <footer >
         <div className="mx-auto  px-4 sm:px-6 lg:px-8">
-          <div className="py-16">
-            <h3 className="text-3xl font-bold tracking-tight">Hashbrown</h3>
-          </div>
           <div className="flex flex-col items-center border-t border-foreground/10 py-10 sm:flex-row-reverse sm:justify-between">
             <div className="flex gap-x-6">
               <Link
