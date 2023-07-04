@@ -10,12 +10,13 @@ export function MainNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const { isSignedIn } = useUser();
   const router = useRouter();
+  console.log(router.pathname)
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6 mt-2", className)}
       {...props}
     >
-      {isSignedIn &&  <Link
+      {isSignedIn && !router.pathname.includes('dashboard')  && <Link
         href="/dashboard"
         className=" border-l border-foreground/10 pl-4  text-sm font-medium transition-colors hover:text-muted-foreground"
       >

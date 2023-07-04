@@ -1,27 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-// import { useRouter } from "next/router";
-import { SignInButton, UserButton, useClerk, useUser } from "@clerk/nextjs";
+import Image from "next/image";
 import { Button } from "~/components/Button";
-import { IconLogin, IconPlayerPlay } from "@tabler/icons-react";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import { PlayCircleIcon } from "lucide-react";
 
 const Home: NextPage = () => {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { redirectToSignIn, session } = useClerk();
-  const { user } = useUser();
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (session) {
-  //     void router.push({
-  //       pathname: "/dashboard",
-  //     });
-  //   }
-  // }, [router, session]);
   return (
     <>
       <Head>
@@ -45,74 +28,55 @@ const Home: NextPage = () => {
           </span>{" "}
           for creators.
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight ">
+        <p className="mx-auto mt-14 max-w-2xl ">
           While many hashtag generators may be complicated to use, we prioritize
           simplicity without compromising accuracy. Say goodbye to complex tools
           and stay worry-free about your hashtag choices.
         </p>
-        <div className="mt-10 flex justify-center gap-x-6">
+        <div className="mt-14 flex justify-center">
           <Button>
             <Link href="/pricing">Try for free</Link>
           </Button>
-          <Button
-            variant="secondary"
-            icon={<IconPlayerPlay className="ml-1 mt-1" size={14} />}
-          >
-            {" "}
-            <Link href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-              <span className="ml-3">Watch video</span>
-            </Link>
-          </Button>
-        </div>
-        <div className="mt-36 lg:mt-44">
-          <p className="font-display text-base ">
-            Trusted by hundreds of creators!
-          </p>
         </div>
       </div>
       <section
         id="features"
         aria-label="Features for running your books"
-        className="relative overflow-hidden pb-28 pt-20 sm:py-32"
+        className="relative overflow-hidden bg-muted py-20 sm:py-32"
       >
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
-            <h2 className="font-display text-3xl tracking-tight sm:text-4xl md:text-5xl">
-              Unleash the Hashtag Magic!
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+              Unleash the hashtag magic!
             </h2>
-            <h3 className=" font-display mt-6 text-xl tracking-tight  sm:text-4xl md:text-3xl">
-              Generate Trending Hashtags Instantly.
+            <h3 className="font-display mt-6 text-xl tracking-tight  sm:text-4xl md:text-3xl">
+              Generate trending hashtags instantly.
             </h3>
           </div>
           <div className="mt-16 grid grid-cols-1 items-center gap-y-2 pt-10 sm:gap-y-6 md:mt-20 lg:grid-cols-12 lg:pt-0">
             <div className="-mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
-              <div
-                className="relative z-10 flex gap-x-4 whitespace-nowrap px-4 sm:mx-auto sm:px-0 lg:mx-0 lg:block lg:gap-x-0 lg:gap-y-1 lg:whitespace-normal"
-                role="tablist"
-                aria-orientation="vertical"
-              >
+              <div>
                 <div className="group relative rounded-full bg-accent px-4 py-1 lg:rounded-l-xl lg:rounded-r-none  lg:p-6 lg:ring-1 lg:ring-inset lg:ring-white/10">
-                  <h3>
-                    <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
+                  <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                     Hashtag generation
                   </h3>
-                  <p className="mt-2 hidden text-sm  lg:block">
-                    Boost Your Reach with Powerful Hashtags! Unlock the
-                    Potential of Hashtag Generation and Supercharge Your Social
-                    Media Strategy Today.
+                  <p className="mt-2 leading-7">
+                    Boost your reach with powerful hashtags! Unlock the
+                    potential of hashtag generation and supercharge your social
+                    media strategy today.
                   </p>
                 </div>
-                <div className="group relative mb-64 rounded-full px-4 py-1  lg:rounded-l-xl lg:rounded-r-none lg:p-6 ">
+                {/* <div className="group relative mb-64 rounded-full px-4 py-1  lg:rounded-l-xl lg:rounded-r-none lg:p-6 ">
                   <h3>
                     <span className="absolute inset-0 rounded-full lg:rounded-l-xl lg:rounded-r-none"></span>
                     Caption hashtag generation
                   </h3>
                   <p className="mt-2 hidden text-sm  lg:block">
-                    Elevate Your Content with Captivating Captions and Trending
-                    Hashtags! Enhance Your Social Media Presence with our
-                    Caption Hashtag Generation Tool. Get Started Now!
+                    Elevate your content with captivating captions and trending
+                    hashtags! Enhance your social media presence with our
+                    caption hashtag generation tool. Get started now!
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="w-full lg:col-span-7">
@@ -124,7 +88,7 @@ const Home: NextPage = () => {
                 aria-labelledby="headlessui-tabs-tab-:R2ba9m:"
               >
                 <div className="mt-10 w-[45rem] overflow-hidden rounded-xl shadow-xl  sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
-                  <img
+                  <Image
                     alt=""
                     // fetchpriority="high"
                     width="2174"
@@ -157,7 +121,7 @@ const Home: NextPage = () => {
             <span className="relative">today</span>
           </span>
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight ">
+        <p className="font-display mx-auto mt-6 mt-6 text-xl tracking-tight  sm:text-4xl md:text-3xl ">
           For creators, by creators
         </p>
         <div className="mt-10 flex justify-center gap-x-6">

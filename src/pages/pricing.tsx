@@ -60,7 +60,7 @@ const Pricing: NextPage = () => {
                   Perfect for creators who want to build their audience.
                 </p>
                 <p className="font-display order-first text-5xl font-light tracking-tight ">
-                  zł29.99
+                  29,99 zł
                 </p>
                 <ul
                   role="list"
@@ -132,7 +132,7 @@ const Pricing: NextPage = () => {
                 </ul>
                 <Button
                   className="mt-8"
-                  aria-label="Get started with the creator plan for zł29.99"
+                  aria-label="Get started with the creator plan for 29,99 zł"
                   onClick={() => {
                     if (isSignedIn) {
                       void router.push({
