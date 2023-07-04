@@ -11,8 +11,8 @@ import { Card } from "~/components/card";
 
 const Pricing: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { redirectToSignIn, session } = useClerk();
-  const { user } = useUser();
+  const { redirectToSignIn } = useClerk();
+  const { isSignedIn } = useUser();
   const router = useRouter();
 
   // useEffect(() => {
@@ -52,7 +52,7 @@ const Pricing: NextPage = () => {
             </h2>
             <p className="mt-4 text-lg">For creators by creators</p>
           </div>
-          <div className="-mx-4 mt-16 max-w-2xl gap-y-10 sm:mx-auto lg:-mx-8  lg:max-w-none xl:mx-0 xl:gap-x-8 flex justify-center">
+          <div className="-mx-4 mt-16 flex max-w-2xl justify-center gap-y-10  sm:mx-auto lg:-mx-8 lg:max-w-none xl:mx-0 xl:gap-x-8">
             <Card className="m-2 max-w-sm sm:m-0">
               <section className="order-first flex flex-col rounded-3xl px-6 py-8 sm:px-8 lg:order-none">
                 <h3 className="font-display mt-5 text-lg ">Creator</h3>
@@ -133,7 +133,15 @@ const Pricing: NextPage = () => {
                 <Button
                   className="mt-8"
                   aria-label="Get started with the creator plan for zł29.99"
-                  onClick={() => void redirectToSignIn()}
+                  onClick={() => {
+                    if (isSignedIn) {
+                      void router.push({
+                        pathname: "/dashboard",
+                      });
+                      return;
+                    }
+                    void redirectToSignIn();
+                  }}
                 >
                   Get started
                 </Button>
