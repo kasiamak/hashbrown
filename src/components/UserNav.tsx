@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "./DropdownMenu";
 import { Button } from "./Button";
-import { IconCreditCard, IconLogout } from "@tabler/icons-react";
+import { IconCreditCard, IconLogout, IconUserCircle } from "@tabler/icons-react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useClerk } from "@clerk/nextjs";
@@ -22,7 +22,7 @@ export interface UserNavProps {
 }
 
 export function UserNav({ image, name, email }: UserNavProps) {
-  const { signOut } = useClerk();
+  const { signOut, openUserProfile } = useClerk();
   const { mutateAsync: createBillingPortalSession } =
     api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();
@@ -64,8 +64,18 @@ export function UserNav({ image, name, email }: UserNavProps) {
           >
             <IconCreditCard className="mr-2 h-4 w-4" />
             <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            {/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
           </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => openUserProfile()}
+          >
+            <IconUserCircle className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+            {/* <DropdownMenuShortcut>⌘B</DropdownMenuShortcut> */}
+          </DropdownMenuItem>
+
+          {/* openUserProfile */}
           {/* <DropdownMenuItem>
             <IconSettings className="mr-2 h-4 w-4" />
             <span>Settings</span>
@@ -83,7 +93,7 @@ export function UserNav({ image, name, email }: UserNavProps) {
         >
           <IconLogout className="mr-2 h-4 w-4" />
           <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
