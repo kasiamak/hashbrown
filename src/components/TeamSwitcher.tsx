@@ -187,7 +187,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                   <SelectItem value="pro">
                     <span className="font-medium">Pro</span> -{" "}
                     <span className="text-muted-foreground">
-                      $9/month per user
+                      $zł29.99/month per user
                     </span>
                   </SelectItem>
                 </SelectContent>

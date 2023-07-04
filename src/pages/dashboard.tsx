@@ -25,7 +25,6 @@ export const TabDispatchContext = createContext<(tab: Tabs) => void>(() => {});
 type Tabs = "saved" | "searches";
 
 export default function NewDashboardPage() {
-
   const [tab, setTab] = useState<Tabs>("saved");
 
   const handleTabChange = (value: Tabs) => {
@@ -59,22 +58,6 @@ export default function NewDashboardPage() {
     <>
       <TabContext.Provider value={tab}>
         <TabDispatchContext.Provider value={handleTabChange}>
-          <div className="md:hidden">
-            <Image
-              src="/examples/dashboard-light.png"
-              width={1280}
-              height={866}
-              alt="Dashboard"
-              className="block dark:hidden"
-            />
-            <Image
-              src="/examples/dashboard-dark.png"
-              width={1280}
-              height={866}
-              alt="Dashboard"
-              className="hidden dark:block"
-            />
-          </div>
           <div className="flex-col md:flex">
             <div className="flex-1 space-y-6 p-8 pt-0">
               <div className="flex items-center justify-between space-y-2">
