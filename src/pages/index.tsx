@@ -1,11 +1,10 @@
-import { GetStaticProps, type NextPage } from "next";
+import { type GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { Button } from "~/components/Button";
 import Link from "next/link";
-import { useClerk } from "@clerk/nextjs";
 import { useI18nContext } from "~/i18n/i18n-react";
-import { Locales } from "~/i18n/i18n-types";
+import { type Locales } from "~/i18n/i18n-types";
 import { loadLocaleAsync } from "~/i18n/i18n-util.async";
 import { loadedLocales } from "~/i18n/i18n-util";
 

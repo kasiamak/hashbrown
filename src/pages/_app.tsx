@@ -37,18 +37,17 @@ export const metadata: Metadata = {
 };
 
 const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  if (!pageProps.i18n) {
-    // probably an Error page
-    return <Component {...pageProps} />;
-  }
+  // // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // if (!pageProps.i18n) {
+  //   // probably an Error page
+  //   return <Component {...pageProps} />;
+  // }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-  const locale: Locales = pageProps.i18n.locale;
-  const dictionary: Translation = pageProps.i18n.dictionary;
+  const locale: Locales = pageProps.i18n?.locale ?? "en";
+  const dictionary: Translation = pageProps.i18n?.dictionary;
 
-  loadedLocales[locale] = dictionary ;
+  loadedLocales[locale] = dictionary;
   loadFormatters(locale);
 
   return (
@@ -58,8 +57,8 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
         fontSans.variable
       )}
     >
-      <TypesafeI18n locale={locale}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <TypesafeI18n locale={locale}>
           <ClerkProvider {...pageProps}>
             <Toaster />
             <Layout>
@@ -67,9 +66,9 @@ const MyApp: AppType = ({ Component, pageProps }: AppProps) => {
               <Analytics />
             </Layout>
           </ClerkProvider>
-        </ThemeProvider>
-        <TailwindIndicator />
-      </TypesafeI18n>
+        </TypesafeI18n>
+      </ThemeProvider>
+      <TailwindIndicator />
     </div>
   );
 };
