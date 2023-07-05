@@ -8,21 +8,30 @@ export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, } = useUser();
   const router = useRouter();
-  console.log(router.pathname)
   return (
     <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6 mt-2", className)}
+      className={cn("mt-2 flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {isSignedIn && !router.pathname.includes('dashboard')  && <Link
-        href="/dashboard"
-        className=" border-l border-foreground/10 pl-4  text-sm font-medium transition-colors hover:text-muted-foreground"
-      >
-        Dashboard
-      </Link> }
-      
+      {isSignedIn && !router.pathname.includes("dashboard") && (
+        <Link
+          href="/dashboard"
+          className=" border-l border-foreground/10 pl-4  text-sm font-medium transition-colors hover:text-muted-foreground"
+        >
+          Dashboard
+        </Link>
+      )}
+      {router.pathname === "/" && (
+        <Link
+          href="/pricing"
+          className="pl-4  text-sm font-medium transition-colors hover:text-muted-foreground"
+        >
+          Pricing
+        </Link>
+      )}
+
       {/* <Link
         href="/examples/dashboard"
         className="text-sm font-medium transition-colors hover:text-primary"

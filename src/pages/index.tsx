@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Button } from "~/components/Button";
 import Link from "next/link";
+import { useClerk } from "@clerk/nextjs";
 
 const Home: NextPage = () => {
   return (
@@ -34,9 +35,9 @@ const Home: NextPage = () => {
           and stay worry-free about your hashtag choices.
         </p>
         <div className="mt-14 flex justify-center">
-          <Button>
-            <Link href="/pricing">Try for free</Link>
-          </Button>
+          <Link href="/sign-up">
+            <Button>Try for free</Button>
+          </Link>
         </div>
       </div>
       <section
@@ -125,10 +126,9 @@ const Home: NextPage = () => {
           For creators, by creators
         </p>
         <div className="mt-10 flex justify-center gap-x-6">
-          <Button>
-            {" "}
-            <Link href="/pricing">Try for free</Link>
-          </Button>
+          <Link href="/sign-up">
+            <Button> Try for free</Button>
+          </Link>
         </div>
       </div>
     </>

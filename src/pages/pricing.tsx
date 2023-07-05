@@ -1,17 +1,14 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 // import { useRouter } from "next/router";
-import { SignInButton, UserButton, useClerk, useUser } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { Button } from "~/components/Button";
-import { IconLogin } from "@tabler/icons-react";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { Card } from "~/components/card";
 
 const Pricing: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { redirectToSignIn } = useClerk();
+  const { redirectToSignUp } = useClerk();
   const { isSignedIn } = useUser();
   const router = useRouter();
 
@@ -132,7 +129,7 @@ const Pricing: NextPage = () => {
                 </ul>
                 <Button
                   className="mt-8"
-                  aria-label="Get started with the creator plan for 29,99 zł"
+                  aria-label="Get started with the creator plan for zł29.99"
                   onClick={() => {
                     if (isSignedIn) {
                       void router.push({
@@ -140,10 +137,10 @@ const Pricing: NextPage = () => {
                       });
                       return;
                     }
-                    void redirectToSignIn();
+                    void redirectToSignUp();
                   }}
                 >
-                  Get started
+                  Start 7 days free trial
                 </Button>
               </section>
             </Card>
