@@ -1,6 +1,4 @@
-//robots.txt
-
-# Block all crawlers for /dashboard
+# Block crawlers from crawling
 User-agent: *
 Disallow: /dashboard
 Disallow: /subscribe
