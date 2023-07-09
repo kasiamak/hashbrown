@@ -25,8 +25,8 @@ const Pricing: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Flexible Pricing Plans for Hashbrown Hashtag Generator | Choose the Perfect Fit</title>
-        <meta name="description" content="Discover our flexible pricing plans for Hashbrown Hashtag Generator. Choose the perfect plan that suits your needs and budget. Generate relevant hashtags effortlessly and boost your social media reach and engagement. Sign up today and take your social media strategy to new heights!" />
+        <title>Simple pricing for everyone | Hashbrown hashtag generator</title>
+        <meta name="description" content="Discover our simple pricing plan for Hashbrown hashtag generator. Choose the perfect plan that suits your needs and budget. Generate relevant hashtags effortlessly and boost your social media reach and engagement. Sign up today and take your social media strategy to new heights!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section id="pricing" aria-label="Pricing" className="w-full py-20">

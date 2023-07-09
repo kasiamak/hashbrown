@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Hashbrown - Simple and Effective Hashtag Generator Tool</title>
+        <title>Hashbrown - Simple and effective hashtag generator tool</title>
         <meta name="description" content="Generate relevant hashtags instantly with Hashbrown - the easy-to-use tool that delivers targeted hashtags for every search term. Boost your social media reach and engagement effortlessly." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
