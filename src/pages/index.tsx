@@ -1,34 +1,12 @@
-import { type GetStaticProps, type NextPage } from "next";
+import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { Button } from "~/components/Button";
 import Link from "next/link";
 import { useI18nContext } from "~/i18n/i18n-react";
-import { type Locales } from "~/i18n/i18n-types";
-import { loadLocaleAsync } from "~/i18n/i18n-util.async";
-import { loadedLocales } from "~/i18n/i18n-util";
+import getI18nProps from "~/i18n/getI18nProps";
 
-// You need to fetch the locale and pass it to the page props.
-// Unfortunately this cannot be done in a global way.
-// This needs to be done for each page you create.
-// The best option is to create a custom function and use it in getStaticProps.
-const getI18nProps: GetStaticProps = async (context) => {
-	const locale = context.locale as Locales
-	await loadLocaleAsync(locale)
-
-	return {
-		props: {
-			i18n: {
-				locale: locale,
-				dictionary: loadedLocales[locale],
-			},
-		},
-	}
-}
-
-
-export const getStaticProps = getI18nProps
-
+export const getStaticProps = getI18nProps;
 
 const Home: NextPage = () => {
   const { LL } = useI18nContext();
@@ -83,9 +61,7 @@ const Home: NextPage = () => {
                   <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                     {LL.hashtagGeneration()}
                   </h3>
-                  <p className="mt-2 leading-7">
-                    {LL.boostReach()}
-                  </p>
+                  <p className="mt-2 leading-7">{LL.boostReach()}</p>
                 </div>
                 {/* <div className="group relative mb-64 rounded-full px-4 py-1  lg:rounded-l-xl lg:rounded-r-none lg:p-6 ">
                   <h3>

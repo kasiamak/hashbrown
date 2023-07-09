@@ -5,6 +5,9 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { Button } from "~/components/Button";
 import { useRouter } from "next/router";
 import { Card } from "~/components/card";
+import getI18nProps from "~/i18n/getI18nProps";
+
+export const getStaticProps = getI18nProps;
 
 const Pricing: NextPage = () => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
