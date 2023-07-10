@@ -85,15 +85,9 @@ export const gptRouter = createTRPCRouter({
             name: term,
             hashtags: {
               createMany: {
-                data: hashtagsToAddToSearch.map(({ id }) => {
-                  let hashtagId = id;
-                  if (!hashtagId.startsWith("#")) {
-                    hashtagId = `#${hashtagId}`;
-                  }
-                  return {
-                    hashtagId: hashtagId,
-                  };
-                }),
+                data: hashtagsToAddToSearch.map(({ id }) => ({
+                  hashtagId: id,
+                })),
               },
             },
           },
