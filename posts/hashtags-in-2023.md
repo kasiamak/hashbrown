@@ -1,7 +1,7 @@
 ---
 title: "Mastering Instagram Hashtags: A Guide for 2023"
 image: /blog/blog-post-1.jpg
-date: 2023-07-09
+date: 2023-06-09
 description: Discover winning strategies to boost your Instagram reach in 2023. Find the right balance, craft a winning strategy, and leverage Hashbrown.social.
 published: true
 ---

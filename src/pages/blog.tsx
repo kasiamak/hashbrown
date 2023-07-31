@@ -16,7 +16,7 @@ function PostCard(post: Post) {
       />
       <h2 className="text-2xl font-extrabold">{post.title}</h2>
       <p className="text-muted-foreground">{post.description}</p>
-      <p className="text-sm text-muted-foreground">April 9, 2023</p>
+      <p className="text-sm text-muted-foreground">{new Date(post.date).toDateString()}</p>
       <Link href={post.url} className="absolute inset-0">
         <span className="sr-only">View Article</span>
       </Link>
