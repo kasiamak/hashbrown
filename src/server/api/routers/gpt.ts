@@ -4,6 +4,16 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { env } from "~/env.mjs";
 import { TRPCError } from "@trpc/server";
 
+import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
+import { Redis } from "@upstash/redis";
+
+// Create a new ratelimiter, that allows 3 requests per 1 minute
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  analytics: true,
+});
+
 function extractJson(markdown: string): { hashtag: string; rank: number }[] {
   console.log(markdown);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -19,7 +29,9 @@ export const gptRouter = createTRPCRouter({
   hashtags: protectedProcedure
     .input(z.object({ term: z.string() }))
     .mutation(async ({ ctx, input: { term } }) => {
-      openai;
+      const { success } = await ratelimit.limit(ctx.auth.userId);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
       const response = await openai.createChatCompletion({
         messages: [
           {
@@ -92,7 +104,6 @@ export const gptRouter = createTRPCRouter({
             },
           },
         });
-        
 
         return hashtagsToAddToSearch;
       } catch (error) {
