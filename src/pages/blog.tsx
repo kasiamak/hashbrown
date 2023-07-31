@@ -16,7 +16,9 @@ function PostCard(post: Post) {
       />
       <h2 className="text-2xl font-extrabold">{post.title}</h2>
       <p className="text-muted-foreground">{post.description}</p>
-      <p className="text-sm text-muted-foreground">{new Date(post.date).toDateString()}</p>
+      <p className="text-sm text-muted-foreground">
+        {new Date(post.date).toDateString()}
+      </p>
       <Link href={post.url} className="absolute inset-0">
         <span className="sr-only">View Article</span>
       </Link>
@@ -25,20 +27,20 @@ function PostCard(post: Post) {
 }
 
 export default function Home() {
-  const posts = allPosts.filter(post => post.published).sort((a, b) =>
-    compareDesc(new Date(a.date), new Date(b.date))
-  );
+  const posts = allPosts
+    .filter((post) => post.published)
+    .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)));
 
   return (
-    <div className="mx-auto max-w-xl py-8">
+    <div className="mx-auto max-w-4xl py-8">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Blog
+        Empowering Creators, Entrepreneurs, and Social Media Managers to Excel
+        on Social Media
       </h1>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
-        The king, seeing how much happier his subjects were, realized the error
-        of his ways and repealed the joke tax.
+      Unleash the Power of Hashtags with our Advanced Hashtag Research and Generation Tool - Supercharge your Social Media Strategy and Maximize Your Reach with Hashbrown, the Ultimate Hashtag Companion.
       </p>
-      <Separator className="mt-4 mb-6" />
+      <Separator className="mb-6 mt-4" />
       <div className="grid gap-10 sm:grid-cols-2">
         {posts.map((post, idx) => (
           <PostCard key={idx} {...post} />
