@@ -22,7 +22,7 @@ While numerous resources list "top hashtags to use," the truth is, there's no de
 
 ## Why Trust Us? 🎓
 
-We are experts in hashtag research and strategy, and our entire platform is built around helping Instagram users find hashtags that are more likely to help them perform. So far this year, we’ve tracked 1m+ Instagram posts and helped 50k+ creators, brands, social media managers, and entrepreneurs understand which hashtags are performing best, and why.
+We are experts in hashtag research and strategy, and our entire platform is built around helping Instagram users find hashtags that are more likely to help them perform. So far this year, we’ve tracked 2+ Instagram posts and helped 42k+ creators, brands, social media managers, and entrepreneurs understand which hashtags are performing best, and why.
 
 ## Foundational Knowledge
 
@@ -66,11 +66,10 @@ Researching hashtags manually involves considering your niche, account size, and
 
 ## How to Save Hashtags for Future Use 🗂
 
-You can manually save hashtags in notes or use Hashbrown's filing system, creating collections based on content type, competitiveness, or hashtag size.
-
+You can manually save hashtags in notes or use Hashbrown's filing system, creating collections based on content type
 ## How to Understand Which Hashtags Are Working ✅
 
-Analyzing hashtag performance manually requires searching hashtags on Instagram and comparing rankings with impressions and engagement. Hashbrown's analytics provides a comprehensive overview of your hashtag performance, making it easier to track your progress.
+Analyzing hashtag performance manually requires searching hashtags on Instagram and comparing rankings with impressions and engagement.
 
 ## How to Do Hashtag Research 🕵️‍♀️
 
@@ -78,4 +77,4 @@ Hashtag research involves finding keywords relevant to your content and searchin
 
 ## Summary
 
-By using the right hashtags strategically, you can achieve organic growth and maximize your Instagram reach. Implement a mix of low, medium, and high competition hashtags, tailor them to your niche, and track their performance using Hashbrown's advanced analytics. Now that you've mastered the basics, it's time to ace your hashtag strategy and unlock the true potential of your Instagram account!
+By using the right hashtags strategically, you can achieve organic growth and maximize your Instagram reach. Implement a mix of low, medium, and high competition hashtags, tailor them to your niche Now that you've mastered the basics, it's time to ace your hashtag strategy and unlock the true potential of your Instagram account!

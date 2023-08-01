@@ -40,7 +40,7 @@ To simplify your hashtag research and selection process, consider leveraging too
 
 - Hashtag Search: Discover hundreds of quality hashtags in minutes based on your content category, target audience, and previous content. Drive more impressions, profile views, and follower growth from untapped audiences.
 
-- Competitor Research: Observe top-performing hashtag content related to your niche, helping you gauge whether your own content is a good fit and identify trends.
+<!-- - Competitor Research: Observe top-performing hashtag content related to your niche, helping you gauge whether your own content is a good fit and identify trends. -->
 
 - Avoid Banned Hashtags: Hashbrown.social filters out banned hashtags automatically, sparing you the hassle and ensuring your posts remain visible to the intended audience.
 
