@@ -22,7 +22,7 @@ While numerous resources list "top hashtags to use," the truth is, there's no de
 
 ## Why Trust Us? 🎓
 
-We are experts in hashtag research and strategy, and our entire platform is built around helping Instagram users find hashtags that are more likely to help them perform. So far this year, we’ve tracked 2+ Instagram posts and helped 42k+ creators, brands, social media managers, and entrepreneurs understand which hashtags are performing best, and why.
+We are experts in hashtag research and strategy, and our entire platform is built around helping Instagram users find hashtags that are more likely to help them perform. So far this year, we’ve tracked thousands of Instagram posts and helped thousands of creators, brands, social media managers, and entrepreneurs understand which hashtags are performing best, and why.
 
 ## Foundational Knowledge
 
