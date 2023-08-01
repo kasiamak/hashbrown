@@ -25,8 +25,8 @@ export function MainNav({
       )}
 
       <Link
-        href="/blog"
-        className={` first:border-l border-foreground/10 pl-4  text-sm transition-colors hover:text-muted-foreground ${router.pathname === '/blog' ? 'font-bold underline' : 'font-medium'}`}
+        href="/posts"
+        className={` first:border-l border-foreground/10 pl-4  text-sm transition-colors hover:text-muted-foreground ${router.pathname === '/posts' ? 'font-bold underline' : 'font-medium'}`}
       >
         Blog
       </Link>

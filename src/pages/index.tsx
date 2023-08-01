@@ -12,6 +12,18 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Hashbrown - Simple and effective hashtag generator tool</title>
+        <meta name="description" content="Checkout our cool page" key="desc" />
+        <meta property="og:title" content="Social Title for Cool Page" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.hashbrown.social" />
+        <meta
+          property="og:description"
+          content="And a social description for our cool page"
+        />
+        <meta
+          property="og:image"
+          content="https://example.com/images/cool-page.jpg"
+        />
         <meta
           name="description"
           content="Generate relevant hashtags instantly with Hashbrown - the easy-to-use tool that delivers targeted hashtags for every search term. Boost your social media reach and engagement effortlessly."
