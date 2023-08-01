@@ -2,35 +2,42 @@ import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { cn } from "~/utils/utils";
+import { cn } from "~/utils"
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const { isSignedIn, } = useUser();
+  const { isSignedIn } = useUser();
   const router = useRouter();
   return (
     <nav
       className={cn("mt-2 flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {isSignedIn && !router.pathname.includes("dashboard") && (
+      {isSignedIn  && (
         <Link
           href="/dashboard"
-          className=" border-l border-foreground/10 pl-4  text-sm font-medium transition-colors hover:text-muted-foreground"
+          className={`first:border-l border-foreground/10 pl-4  text-sm transition-colors hover:text-muted-foreground ${router.pathname === '/dashboard' ? 'font-bold underline' : 'font-medium'}`}
         >
           Dashboard
         </Link>
       )}
-      {router.pathname === "/" && (
+
+      <Link
+        href="/posts"
+        className={` first:border-l border-foreground/10 pl-4  text-sm transition-colors hover:text-muted-foreground ${router.pathname === '/posts' ? 'font-bold underline' : 'font-medium'}`}
+      >
+        Blog
+      </Link>
+      {/* {router.pathname !== "/pricing" && ( */}
         <Link
           href="/pricing"
-          className="pl-4  text-sm font-medium transition-colors hover:text-muted-foreground"
+          className={`pl-4 text-sm transition-colors hover:text-muted-foreground ${router.pathname === '/pricing' ? 'font-bold underline' : 'font-medium'}`}
         >
           Pricing
         </Link>
-      )}
+      {/* )} */}
 
       {/* <Link
         href="/examples/dashboard"

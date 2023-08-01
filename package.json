@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "contentlayer build && next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
@@ -50,15 +50,20 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "@upstash/ratelimit": "^0.4.3",
+    "@upstash/redis": "^1.22.0",
     "@vercel/analytics": "^1.0.1",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
+    "contentlayer": "^0.3.4",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
     "lucide-react": "^0.244.0",
     "micro": "^10.0.1",
     "next": "^13.4.4",
     "next-axiom": "^0.17.0",
+    "next-contentlayer": "^0.3.4",
     "next-themes": "^0.2.1",
     "openai": "^3.3.0",
     "react": "18.2.0",
@@ -90,6 +95,17 @@
     "prisma": "^4.11.0",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.0.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@opentelemetry/api": "1.4.1",
+      "@opentelemetry/core": "1.13.0",
+      "@opentelemetry/exporter-trace-otlp-grpc": "0.39.1",
+      "@opentelemetry/resources": "1.13.0",
+      "@opentelemetry/sdk-trace-base": "1.13.0",
+      "@opentelemetry/sdk-trace-node": "1.13.0",
+      "@opentelemetry/semantic-conventions": "1.13.0"
+    }
   },
   "ct3aMetadata": {
     "initVersion": "7.13.0"

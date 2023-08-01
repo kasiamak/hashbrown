@@ -8,7 +8,7 @@ import { type Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { siteConfig } from "~/config";
 import { fontSans } from "~/utils/fonts";
-import { cn } from "~/utils/utils";
+import { cn } from "~/utils"
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "~/components/ThemeProvider";
 import { TailwindIndicator } from "~/components/TailwindIndicator";

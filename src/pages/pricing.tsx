@@ -21,13 +21,6 @@ const Pricing: NextPage = () => {
   const { redirectToSignUp } = useClerk();
   const { isSignedIn } = useUser();
   const router = useRouter();
-  // useEffect(() => {
-  //   if (session) {
-  //     void router.push({
-  //       pathname: "/dashboard",
-  //     });
-  //   }
-  // }, [router, session]);
   return (
     <>
       <Head>
