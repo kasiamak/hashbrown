@@ -1,8 +1,5 @@
 import { type Metadata } from "next";
-import Image from "next/image";
 
-import { MainNav } from "~/components/MainNav";
-import { UserNav } from "~/components/UserNav";
 import { PastSearches } from "~/islands/PastSearches";
 import { SavedHashtags } from "~/islands/SavedHashtags";
 import { HashtagSearch } from "~/islands/HashtagSearch";
@@ -10,13 +7,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/Tabs";
 import { useEffect, useMemo, useState } from "react";
 
 import { createContext } from "react";
-import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
+import getI18nProps from "~/i18n/getI18nProps";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Example dashboard app using the components.",
+  description: "",
 };
+
+export const getStaticProps = getI18nProps;
 
 export const TabContext = createContext<"saved" | "searches">("saved");
 // eslint-disable-next-line @typescript-eslint/no-empty-function

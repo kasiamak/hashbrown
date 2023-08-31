@@ -38,6 +38,8 @@ export const stripeRouter = createTRPCRouter({
       success_url: `${baseUrl}/dashboard/?checkoutSuccess=true`,
       cancel_url: `${baseUrl}/?checkoutCanceled=true`,
       subscription_data: {
+        // trial_from_plan: true,
+        trial_period_days: 7,
         metadata: {
           userId: auth.userId ?? "",
         },

@@ -4,13 +4,20 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { env } from "~/env.mjs";
 import { TRPCError } from "@trpc/server";
 
-function extractJson(markdown: string): { hashtag: string }[] {
-  console.log("extractJson", markdown);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
-  const result = JSON.parse(markdown).hashtags;
-  console.log("result", result);
+import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
+import { Redis } from "@upstash/redis";
+
+// Create a new ratelimiter, that allows 3 requests per 1 minute
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(3, "1 m"),
+  analytics: true,
+});
+
+function extractJson(markdown: string): { hashtag: string; rank: number }[] {
+  console.log(markdown);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return result;
+  return JSON.parse(markdown);
 }
 
 const configuration = new Configuration({
@@ -22,42 +29,34 @@ export const gptRouter = createTRPCRouter({
   hashtags: protectedProcedure
     .input(z.object({ term: z.string() }))
     .mutation(async ({ ctx, input: { term } }) => {
-      openai;
+      const { success } = await ratelimit.limit(ctx.auth.userId);
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
       const response = await openai.createChatCompletion({
         messages: [
           {
             role: "system",
             content: `
-            As an expert in Instagram hashtags, your task is to provide 10 highly relevant and niche hashtags for a given term and no less, no term is too challenging. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the term, which is an array of objects with properties: hashtag (a string representing the hashtag itself). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format.
+            As an expert in Instagram hashtags, your task is to provide 10 highly relevant and niche hashtags for a given term, no term is too challenging. Each hashtag should be optimized for Instagram's search algorithm and most likely to drive engagement and reach for the term, which is an array of objects with two properties: hashtag (a string representing the hashtag itself) and rank (a number between 1 and 5 representing the ranking of the hashtag based on your analysis). The hashtags provided should be valid Instagram hashtags written in the valid hashtag format.
 
-          
-            Do not include hashtags which are not used online.
+            Do not include hashtags which are not used.
+
+            Do not include any explanations, only provide a RFC8259 compliant JSON response following this format without deviation. Do not include "Here are 10 highly relevant and niche hashtags for term:"
+            ${JSON.stringify(
+              [
+                { hashtag: "string", rank: 0 },
+                { hashtag: "string", rank: 0 },
+              ],
+              null,
+              2
+            )}
+            
+            
         `,
           },
           {
             role: "user",
             content: term,
-          },
-        ],
-        functions: [
-          {
-            name: "get_hashtags",
-            description: "Get relevant hashtags for a given term",
-            parameters: {
-              type: "object",
-              properties: {
-                hashtags: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                    properties: {
-                      hashtag: { type: "string" },
-                    },
-                  },
-                },
-              },
-              required: ["hashtags"],
-            },
           },
         ],
         model: "gpt-3.5-turbo-0613",
@@ -67,13 +66,8 @@ export const gptRouter = createTRPCRouter({
       const { choices } = response.data;
 
       try {
-        console.log(
-          "function_call",
-          choices[0]?.message?.function_call?.arguments
-        );
-
-        const hashtags: { hashtag: string }[] = extractJson(
-          choices[0]?.message?.function_call?.arguments ?? ""
+        const hashtags: { hashtag: string; rank: number }[] = extractJson(
+          choices?.[0]?.message?.content ?? ""
         );
 
         const foundHashtags = (
@@ -88,11 +82,6 @@ export const gptRouter = createTRPCRouter({
           data: hashtags
             .filter(({ hashtag }) => !foundHashtags.includes(hashtag))
             .map(({ hashtag }) => ({ name: hashtag })),
-        });
-        console.log({
-          hashtagsFromGpt: hashtags,
-          foundHashtags,
-          createdHashtags,
         });
 
         const hashtagsToAddToSearch = (

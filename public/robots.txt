@@ -1,0 +1,11 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Block crawlers from crawling
+User-agent: *
+Disallow: /dashboard
+Disallow: /subscribe
+
+# allow access to sitemap
+Sitemap: https://www.hashbrown.social/sitemap.xml

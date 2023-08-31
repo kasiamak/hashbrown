@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "contentlayer build && next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
     "postinstall": "prisma generate",
     "prisma:push": "npx prisma db push",
-    "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe-webhook --latest"
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe-webhook --latest",
+    "typesafe-i18n": "typesafe-i18n"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.21.1",
@@ -49,15 +50,20 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "@upstash/ratelimit": "^0.4.3",
+    "@upstash/redis": "^1.22.0",
     "@vercel/analytics": "^1.0.1",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
+    "contentlayer": "^0.3.4",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
     "lucide-react": "^0.244.0",
     "micro": "^10.0.1",
     "next": "^13.4.4",
     "next-axiom": "^0.17.0",
+    "next-contentlayer": "^0.3.4",
     "next-themes": "^0.2.1",
     "openai": "^3.3.0",
     "react": "18.2.0",
@@ -69,6 +75,7 @@
     "superjson": "1.12.2",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
+    "typesafe-i18n": "^5.24.3",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -88,6 +95,17 @@
     "prisma": "^4.11.0",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.0.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@opentelemetry/api": "1.4.1",
+      "@opentelemetry/core": "1.13.0",
+      "@opentelemetry/exporter-trace-otlp-grpc": "0.39.1",
+      "@opentelemetry/resources": "1.13.0",
+      "@opentelemetry/sdk-trace-base": "1.13.0",
+      "@opentelemetry/sdk-trace-node": "1.13.0",
+      "@opentelemetry/semantic-conventions": "1.13.0"
+    }
   },
   "ct3aMetadata": {
     "initVersion": "7.13.0"
